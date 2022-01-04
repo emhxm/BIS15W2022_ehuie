@@ -1,0 +1,64 @@
+---
+title: "RMarkdown Practice"
+author: "Emily Huie"
+date: "1/4/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+## Titles and Text
+_EMILY_
+**Emily**
+###Emily
+#EMily
+Emily
+
+## Links
+[Emily BIS15 Repository](https://github.com/emhxm/BIS15W2022_ehuie/tree/main/lab1)
+
+[Emily Huie](mailto:ezhuie@ucdavis.edu)
+#InsertCodeChunks
+```{r}
+x=1
+y=2
+x+y
+```
+##Practice
+1. Test out the arithmetic capabilities of R; experiment by doing addition, subtraction, multiplication, and division.
+```{r}
+(1+4)*36/2-12
+```
+
+2. Go back to your "RMarkdown Practice" file and experiment with titles, text, and syntax.
+#TITLES
+##Hello world. 
+Hello world
+_HELLOWORLD_
+**HELLO WORLD**
+# Links
+[Emily BIS15 Repository](https://github.com/emhxm/BIS15W2022_ehuie/tree/main/lab1)
+
+[Emily Huie](mailto:ezhuie@ucdavis.edu)
+3. Copy and paste the following two pieces of code into the document (include the gray code "chunks").      
+
+```{r}
+#install.packages("tidyverse")
+library("tidyverse")
+```
+
+```{r}
+ggplot(mtcars, aes(x = factor(cyl))) +
+    geom_bar()
+```
+
+```
+
+
+```
+
