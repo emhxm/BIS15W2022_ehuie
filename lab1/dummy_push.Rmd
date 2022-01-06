@@ -1,7 +1,7 @@
 ---
 title: "Dummy Push"
 author: "Emily Huie"
-date: "`r Sys.Date()`"
+date: "1/4/2022"
 output: html_document
 ---
 
