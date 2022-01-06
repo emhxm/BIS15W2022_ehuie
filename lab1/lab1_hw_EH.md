@@ -62,8 +62,6 @@ No, parentheses are needed.
 ## [1] 16
 ```
 **6. `Objects` in R are a way in which we can store data or operations. We will talk more about objects next week. For now, make a new object `pi` as 3.14159265359 by running the following code chunk. You should now see the object `pi` in the environment window in the top right.**
-```
-
 
 
 ```r
@@ -80,6 +78,8 @@ pi <- 3.14159265359
 ## [1] 6.283185
 ```
 
+```
+
 **8. In order to get help with any command in R, just type a `?` in front the command of interest. Practice this by running the following code chunk.**  
 
 ```r
@@ -90,6 +90,7 @@ pi <- 3.14159265359
 ## starting httpd help server ... done
 ```
 
+
 **9. Let's calculate the mean for the numbers 2, 8, 6, 4, 9, 10. I have built an object `x` for you below so all you need to do is run the first code chunk and then create a second code chunk that shows the calculation. Give it a try!**  
 
 ```r
@@ -98,6 +99,14 @@ x <- c(2, 8, 6, 6, 7, 4, 9, 9, 9, 10)
 
 ```r
 mean(x)
+```
+
+```
+## [1] 7
+```
+
+```r
+7
 ```
 
 ```
@@ -114,6 +123,18 @@ median(x)
 ## [1] 7.5
 ```
 
+```r
+7.5
+```
+
+```
+## [1] 7.5
+```
+
 
 ## Push your final code to GitHub!
 Please be sure that you check the `keep md` file in the knit preferences.  
+```
+
+
+
