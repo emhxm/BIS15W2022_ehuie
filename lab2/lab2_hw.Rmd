@@ -1,7 +1,7 @@
 ---
 title: "Lab 2 Homework"
-author: "Please Add Your Name Here"
-date: "`r Sys.Date()`"
+author: "Emily Huie"
+date: "1/9/22"
 output:
   html_document:
     theme: spacelab
@@ -13,9 +13,33 @@ Answer the following questions and complete the exercises in RMarkdown. Please e
 
 Make sure to use the formatting conventions of RMarkdown to make your report neat and clean!  
 
-1. What is a vector in R?  
+1. What is a vector in R? 
+A vector contains values of the same type (e.g. integers, characters). In order to create a vector, we use the c command which stands for "concatenate". 
+An example would be:
+```{r}
+favorite_fruit <- c("strawberry","mango","watermelon","raspberry","kiwi")
+favorite_fruit
+```
+
 
 2. What is a data matrix in R?  
+A data matrix is like a table, where it compiles multiple vectors. 
+An example would be the following where I created a data matrix that compares store prices of fruit (Safeway vs. Trader Joe's).
+(In my draft version, I had print values, for this final version I only printed the final matrix :D ),
+```{r}
+#ComparingStorePrices
+Strawberry <-c(2, 1.5)
+Mango <- c(3, 2)
+Watermelon <-c(2, 1)
+fruit <-c(Strawberry, Mango, Watermelon)
+fruit_matrix <-matrix(fruit, nrow=3, byrow=T)
+store_name <-c("Safeway", "Trader Joe's")
+fruit_name <-c("Strawberry","Mango","Watermelon")
+colnames(fruit_matrix)<- store_name
+rownames(fruit_matrix)<- fruit_name
+fruit_matrix
+
+```
 
 3. Below are data collected by three scientists (Jill, Steve, Susan in order) measuring temperatures of eight hot springs. Run this code chunk to create the vectors.  
 ```{r}
@@ -31,17 +55,113 @@ spring_8 <- c(36.80, 36.45, 33.15)
 
 4. Build a data matrix that has the springs as rows and the columns as scientists.  
 
+```{r}
+#1 Combine the 8 springs into one vector.
+springs <-c(spring_1, spring_2, spring_3, spring_4, spring_5, spring_6, spring_7, spring_8)
+springs
+```
+```{r}
+#2 Create a matrix
+springs_matrix <- matrix(springs, nrow=8, byrow=T)
+springs_matrix
+```
+
+```{r}
+#Assign column and row names
+scientists <-c("Jill","Steven","Susan")
+spring_names<-c("Bluebell Spring","Opal Spring","Riverside Spring","Too Hot Spring", "Mystery Spring", "Emerald Spring", "Black Spring", "Pearl Spring")
+```
+
 5. The names of the springs are 1.Bluebell Spring, 2.Opal Spring, 3.Riverside Spring, 4.Too Hot Spring, 5.Mystery Spring, 6.Emerald Spring, 7.Black Spring, 8.Pearl Spring. Name the rows and columns in the data matrix. Start by making two new vectors with the names, then use `colnames()` and `rownames()` to name the columns and rows.
+```{r}
+#Name the rows and columns of data matrix
+colnames(springs_matrix)<-scientists
+rownames(springs_matrix)<-spring_names
+
+#Final Matrix
+springs_matrix
+```
+
 
 6. Calculate the mean temperature of all eight springs.
+```{r}
+#Calculated mean temperature for each spring
+bluebellspringmean <-mean(springs_matrix[1,])
+opalspringmean<-mean(springs_matrix[2,])
+riversidespringmean<-mean(springs_matrix[3,])
+toohotspringmean<-mean(springs_matrix[4,])
+mysteryspringmean<-mean(springs_matrix[5,])
+emeraldspringmean<-mean(springs_matrix[6,])
+blackspringmean<-mean(springs_matrix[7,])
+pearlspringmean<-mean(springs_matrix[8,])
+#Combined mean values into one vector
+mean_values<-c(bluebellspringmean,opalspringmean,riversidespringmean, toohotspringmean, mysteryspringmean,emeraldspringmean,blackspringmean,pearlspringmean)
+mean_values
+```
 
-7. Add this as a new column in the data matrix.  
+7. Add this as a new column in the data matrix.
+```{r}
+#Added mean values as a new column
+added_mean_springs_matrix <-cbind(springs_matrix,mean_values)
+added_mean_springs_matrix
+```
+
+
 
 8. Show Susan's value for Opal Spring only.
+```{r}
+#Susan column 3 and Opal Srping in Row 2, therefore [row,column] = [2,3]
+added_mean_springs_matrix[2,3]
 
-9. Calculate the mean for Jill's column only.  
+```
+
+
+9. Calculate the mean for Jill's column only. 
+#Jill's Column = Column 1 
+```{r}
+added_mean_springs_matrix[,1]
+mean(added_mean_springs_matrix[,1])
+
+```
 
 10. Use the data matrix to perform one calculation or operation of your interest.
+
+Manual Ranking of Mean Spring Temperatures (without Rank Function):
+Identified the column of data matrix that contains mean values. Found the maximum mean value by using max function. Then, I found the 2nd highest number by first creating a vector that inlcudes all the values that are less than my highest number, then using the max function to find the highest number of this vector which would represent the 2nd highest mean value. I repeat this process until I rank the mean values from 1 to 8. Then, I assigned the values to the spring name they correspond with and created a table to illustrate the ranked mean value of the springs from high to low. 
+One struggle I had was figuring out if there was a way I did not have to reassign the names of the springs and if the mean values could already be associated with their respective spring. I was unable to figure out this problem and instead, manually matched the names of the springs with my mean values.  
+```{r}
+#Finding mean values or I can use my already created mean_values vector. 
+added_mean_springs_matrix[,4]
+```
+
+
+```{r}
+#Ranking mean values from highest to lowest which is represented by number# where # equals the ranking order where 1 is highest and 8 is lowest.  
+number1<-max(added_mean_springs_matrix[,4])
+number2<-max(mean_values[mean_values<number1])
+number3<-max(mean_values[mean_values<number2])
+number4<-max(mean_values[mean_values<number3])
+number5<-max(mean_values[mean_values<number4])
+number6<-max(mean_values[mean_values<number5])
+number7<-max(mean_values[mean_values<number6])
+number8<-max(mean_values[mean_values<number7])
+ranked_springs_values<-c(number1,number2,number3,number4,number5,number6,number7,number8)
+ranked_springs_values
+```
+
+
+```{r}
+#Created matrix to connect the Spring Name with ranked mean value.
+ranked_spring_matrix<-matrix(ranked_springs_values,ncol=1, byrow=T)
+ranked_spring_names<-c("Too Hot Spring","Bluebell Spring","Pearl Spring","Opal Spring","Black Spring","Mystery Spring", "Emerald Spring", "Riverside Spring")
+rank<-"Rank Order"
+rownames(ranked_spring_matrix)<-ranked_spring_names
+colnames(ranked_spring_matrix)<-rank
+ranked_spring_matrix
+
+```
+
+
 
 ## Push your final code to GitHub!
 Please be sure that you check the `keep md` file in the knit preferences.  
