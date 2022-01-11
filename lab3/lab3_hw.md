@@ -23,7 +23,7 @@ library(tidyverse)
 1. For this assignment, we are going to use built-in data on mammal sleep patterns. From which publication are these data taken from? Since the data are built-in you can use the help function in R.
 
 https://ggplot2.tidyverse.org/reference/msleep.html
-Pubication: V. M. Savage and G. B. West. A quantitative, theoretical framework for understanding mammalian sleep. Proceedings of the National Academy of Sciences, 104 (3):1051-1056, 2007.
+Publication: V. M. Savage and G. B. West. A quantitative, theoretical framework for understanding mammalian sleep. Proceedings of the National Academy of Sciences, 104 (3):1051-1056, 2007.
 
 
 ```r
@@ -59,7 +59,8 @@ sleep
 ```
 
 3. What are the dimensions of this data frame (variables and observations)? How do you know? Please show the *code* that you used to determine this below.
-83 rows and 11 columns.
+
+83 rows (observations) and 11 columns (variables).
 
 ```r
 dim(sleep)
@@ -70,7 +71,8 @@ dim(sleep)
 ```
 
 4. Are there any NAs in the data? How did you determine this? Please show your code.  
-Yes, there are missing variables.
+
+Yes, there are missing variables. I used the #anyNA() function to determine if there were any NAs. 
 
 ```r
 anyNA(sleep)
@@ -94,7 +96,8 @@ names(sleep)
 
 6. How many herbivores are represented in the data? 
 
-32 herbivores
+32 herbivores.
+
 
 ```r
 table(sleep$vore)
@@ -150,6 +153,8 @@ large_animals
 ```
 
 8. What is the mean weight for both the small and large mammals?
+Small Animal Mean = 0.26 kg
+Large Animal Mean = 1747.1 kg
 
 ```r
 smallanimalmean<-small_animals$bodywt
@@ -174,6 +179,7 @@ mean(largeanimalmean, na.rm=T)
 
 Small animals sleep longer on average. Small animals sleep 12 hours whereas large animals sleep 3 hours. 
 
+
 ```r
 sasleep<-small_animals$sleep_total
 mean(sasleep, na.rm=T)
@@ -194,6 +200,8 @@ mean(lasleep,na.rm=T)
 ```
 
 10. Which animal is the sleepiest among the entire dataframe?
+
+Little brown bat = total sleep time is 19.9.
 
 ```r
 sleepiest <-sleep$sleep_total

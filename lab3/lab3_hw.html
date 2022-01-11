@@ -185,7 +185,7 @@ pre code {
 <ol style="list-style-type: decimal">
 <li>For this assignment, we are going to use built-in data on mammal sleep patterns. From which publication are these data taken from? Since the data are built-in you can use the help function in R.</li>
 </ol>
-<p><a href="https://ggplot2.tidyverse.org/reference/msleep.html" class="uri">https://ggplot2.tidyverse.org/reference/msleep.html</a> Pubication: V. M. Savage and G. B. West. A quantitative, theoretical framework for understanding mammalian sleep. Proceedings of the National Academy of Sciences, 104 (3):1051-1056, 2007.</p>
+<p><a href="https://ggplot2.tidyverse.org/reference/msleep.html" class="uri">https://ggplot2.tidyverse.org/reference/msleep.html</a> Publication: V. M. Savage and G. B. West. A quantitative, theoretical framework for understanding mammalian sleep. Proceedings of the National Academy of Sciences, 104 (3):1051-1056, 2007.</p>
 <pre class="r"><code>help(msleep)</code></pre>
 <pre><code>## starting httpd help server ... done</code></pre>
 <ol start="2" style="list-style-type: decimal">
@@ -208,14 +208,15 @@ sleep</code></pre>
 ## 10 Roe d~ Capr~ herbi Arti~ lc                   3        NA        NA      21  
 ## # ... with 73 more rows, and 2 more variables: brainwt &lt;dbl&gt;, bodywt &lt;dbl&gt;</code></pre>
 <ol start="3" style="list-style-type: decimal">
-<li>What are the dimensions of this data frame (variables and observations)? How do you know? Please show the <em>code</em> that you used to determine this below. 83 rows and 11 columns.</li>
+<li>What are the dimensions of this data frame (variables and observations)? How do you know? Please show the <em>code</em> that you used to determine this below.</li>
 </ol>
+<p>83 rows (observations) and 11 columns (variables).</p>
 <pre class="r"><code>dim(sleep)</code></pre>
 <pre><code>## [1] 83 11</code></pre>
 <ol start="4" style="list-style-type: decimal">
-<li>Are there any NAs in the data? How did you determine this? Please show your code.<br />
-Yes, there are missing variables.</li>
+<li>Are there any NAs in the data? How did you determine this? Please show your code.</li>
 </ol>
+<p>Yes, there are missing variables. I used the #anyNA() function to determine if there were any NAs.</p>
 <pre class="r"><code>anyNA(sleep)</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 <ol start="5" style="list-style-type: decimal">
@@ -228,7 +229,7 @@ Yes, there are missing variables.</li>
 <ol start="6" style="list-style-type: decimal">
 <li>How many herbivores are represented in the data?</li>
 </ol>
-<p>32 herbivores</p>
+<p>32 herbivores.</p>
 <pre class="r"><code>table(sleep$vore)</code></pre>
 <pre><code>## 
 ##   carni   herbi insecti    omni 
@@ -266,7 +267,7 @@ large_animals</code></pre>
 ## 7 Brazi~ Tapir~ herbi Peri~ vu                   4.4       1         0.9    19.6
 ## # ... with 2 more variables: brainwt &lt;dbl&gt;, bodywt &lt;dbl&gt;</code></pre>
 <ol start="8" style="list-style-type: decimal">
-<li>What is the mean weight for both the small and large mammals?</li>
+<li>What is the mean weight for both the small and large mammals? Small Animal Mean = 0.26 kg Large Animal Mean = 1747.1 kg</li>
 </ol>
 <pre class="r"><code>smallanimalmean&lt;-small_animals$bodywt
 mean(smallanimalmean,na.rm= T)</code></pre>
@@ -287,6 +288,7 @@ mean(lasleep,na.rm=T)</code></pre>
 <ol start="10" style="list-style-type: decimal">
 <li>Which animal is the sleepiest among the entire dataframe?</li>
 </ol>
+<p>Little brown bat = total sleep time is 19.9.</p>
 <pre class="r"><code>sleepiest &lt;-sleep$sleep_total
 max(sleepiest, na.rm=T)</code></pre>
 <pre><code>## [1] 19.9</code></pre>
