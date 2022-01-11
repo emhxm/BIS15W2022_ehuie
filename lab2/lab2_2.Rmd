@@ -35,6 +35,7 @@ my_vector <- c(10, 20, 30)
 A character vector. Characters always have quotes and may be referred to as "strings".
 ```{r}
 days_of_the_week <- c("Monday", "Tuesday", "Wednesday", "Thrusday", "Friday", "Saturday", "Sunday")
+days_of_the_week
 ```
 
 A convenient trick for creating a vector is to generate a sequence of numbers.
