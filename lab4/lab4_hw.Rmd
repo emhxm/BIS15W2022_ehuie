@@ -7,9 +7,6 @@ output:
     theme: spacelab
     keep_md: yes
 ---
-```{r}
-
-```
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -79,7 +76,7 @@ levels(homerange$order)
 
 **4. What taxa are represented in the `homerange` data frame? Make a new data frame `taxa` that is restricted to taxon, common name, class, order, family, genus, species.**  
 ```{r}
-taxa <-select(homerange, "taxon", "common_name", "class","order","family","genus")
+taxa <-select(homerange, "taxon", "common_name", "class","order","family","genus","species")
 taxa
 ```
 
@@ -143,17 +140,16 @@ arrange(deer, desc(log10_mass))
 
 **10. As measured by the data, which snake species has the smallest homerange? Show all of your work, please. Look this species up online and tell me about it!** **Snake is found in taxon column**   
 ```{r}
-#Builing Snake Database
+#Building Snake Database
 snake<-filter(homerange,taxon=="snakes")
 snake
 ```
 ```{r}
 snakehomerange<-select(snake,species,family, common_name, mean_hra_m2)
 arrange(snakehomerange,mean_hra_m2)
-#Schneideri
 ```
 
-The Namaqua dwarf adder is a part of the schneideri species and belongs to the viperidae family. It is a dangerous snake that is from a Namaqualand and Nambia. 
+The Namaqua Dwarf Adder is a part of the schneideri species and belongs to the viperidae family. It is a dangerous snake that is from a Namaqualand and Nambia. 
 
 Reference:
 https://www.africansnakebiteinstitute.com/snake/namaqua-dwarf-adder/

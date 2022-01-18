@@ -331,21 +331,21 @@ levels(homerange$order)</code></pre>
 ## [46] &quot;strigiformes&quot;       &quot;struthioniformes&quot;   &quot;syngnathiformes&quot;   
 ## [49] &quot;testudines&quot;         &quot;tetraodontiformes&lt;U+00A0&gt;&quot; &quot;tinamiformes&quot;</code></pre>
 <p><strong>4. What taxa are represented in the <code>homerange</code> data frame? Make a new data frame <code>taxa</code> that is restricted to taxon, common name, class, order, family, genus, species.</strong></p>
-<pre class="r"><code>taxa &lt;-select(homerange, &quot;taxon&quot;, &quot;common_name&quot;, &quot;class&quot;,&quot;order&quot;,&quot;family&quot;,&quot;genus&quot;)
+<pre class="r"><code>taxa &lt;-select(homerange, &quot;taxon&quot;, &quot;common_name&quot;, &quot;class&quot;,&quot;order&quot;,&quot;family&quot;,&quot;genus&quot;,&quot;species&quot;)
 taxa</code></pre>
-<pre><code>## # A tibble: 569 x 6
-##    taxon         common_name             class          order    family   genus 
-##    &lt;fct&gt;         &lt;chr&gt;                   &lt;chr&gt;          &lt;fct&gt;    &lt;chr&gt;    &lt;chr&gt; 
-##  1 lake fishes   american eel            actinopterygii anguill~ anguill~ angui~
-##  2 river fishes  blacktail redhorse      actinopterygii cyprini~ catosto~ moxos~
-##  3 river fishes  central stoneroller     actinopterygii cyprini~ cyprini~ campo~
-##  4 river fishes  rosyside dace           actinopterygii cyprini~ cyprini~ clino~
-##  5 river fishes  longnose dace           actinopterygii cyprini~ cyprini~ rhini~
-##  6 river fishes  muskellunge             actinopterygii esocifo~ esocidae esox  
-##  7 marine fishes pollack                 actinopterygii gadifor~ gadidae  polla~
-##  8 marine fishes saithe                  actinopterygii gadifor~ gadidae  polla~
-##  9 marine fishes lined surgeonfish       actinopterygii percifo~ acanthu~ acant~
-## 10 marine fishes orangespine unicornfish actinopterygii percifo~ acanthu~ naso  
+<pre><code>## # A tibble: 569 x 7
+##    taxon         common_name             class   order   family   genus  species
+##    &lt;fct&gt;         &lt;chr&gt;                   &lt;chr&gt;   &lt;fct&gt;   &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;  
+##  1 lake fishes   american eel            actino~ anguil~ anguill~ angui~ rostra~
+##  2 river fishes  blacktail redhorse      actino~ cyprin~ catosto~ moxos~ poecil~
+##  3 river fishes  central stoneroller     actino~ cyprin~ cyprini~ campo~ anomal~
+##  4 river fishes  rosyside dace           actino~ cyprin~ cyprini~ clino~ fundul~
+##  5 river fishes  longnose dace           actino~ cyprin~ cyprini~ rhini~ catara~
+##  6 river fishes  muskellunge             actino~ esocif~ esocidae esox   masqui~
+##  7 marine fishes pollack                 actino~ gadifo~ gadidae  polla~ pollac~
+##  8 marine fishes saithe                  actino~ gadifo~ gadidae  polla~ virens 
+##  9 marine fishes lined surgeonfish       actino~ percif~ acanthu~ acant~ lineat~
+## 10 marine fishes orangespine unicornfish actino~ percif~ acanthu~ naso   litura~
 ## # ... with 559 more rows</code></pre>
 <p><strong>5. The variable <code>taxon</code> identifies the large, common name groups of the species represented in <code>homerange</code>. Make a table the shows the counts for each of these <code>taxon</code>.</strong></p>
 <pre class="r"><code>table(homerange$taxon)</code></pre>
@@ -456,7 +456,7 @@ arrange(deer, desc(log10_mass))</code></pre>
 ## 12       7500.       3.88 cervidae pudu       puda</code></pre>
 <pre class="r"><code>#Moose is the largest deer.</code></pre>
 <p><strong>10. As measured by the data, which snake species has the smallest homerange? Show all of your work, please. Look this species up online and tell me about it!</strong> <strong>Snake is found in taxon column</strong></p>
-<pre class="r"><code>#Builing Snake Database
+<pre class="r"><code>#Building Snake Database
 snake&lt;-filter(homerange,taxon==&quot;snakes&quot;)
 snake</code></pre>
 <pre><code>## # A tibble: 41 x 24
@@ -493,8 +493,7 @@ arrange(snakehomerange,mean_hra_m2)</code></pre>
 ##  9 rufodorsatus colubridae redbacked ratsnake        15400 
 ## 10 catenifer    colubridae gopher snake              17400 
 ## # ... with 31 more rows</code></pre>
-<pre class="r"><code>#Schneideri</code></pre>
-<p>The Namaqua dwarf adder is a part of the schneideri species and belongs to the viperidae family. It is a dangerous snake that is from a Namaqualand and Nambia.</p>
+<p>The Namaqua Dwarf Adder is a part of the schneideri species and belongs to the viperidae family. It is a dangerous snake that is from a Namaqualand and Nambia.</p>
 <p>Reference: <a href="https://www.africansnakebiteinstitute.com/snake/namaqua-dwarf-adder/" class="uri">https://www.africansnakebiteinstitute.com/snake/namaqua-dwarf-adder/</a></p>
 </div>
 <div id="push-your-final-code-to-github" class="section level2">

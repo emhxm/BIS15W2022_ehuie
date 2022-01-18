@@ -10,7 +10,6 @@ output:
 
 
 
-
 ## Instructions
 Answer the following questions and complete the exercises in RMarkdown. Please embed all of your code and push your final work to your repository. Your final lab report should be organized, clean, and run free from errors. Remember, you must remove the `#` for the included code chunks to run. Be sure to add your name to the author header above.  
 
@@ -233,24 +232,24 @@ levels(homerange$order)
 **4. What taxa are represented in the `homerange` data frame? Make a new data frame `taxa` that is restricted to taxon, common name, class, order, family, genus, species.**  
 
 ```r
-taxa <-select(homerange, "taxon", "common_name", "class","order","family","genus")
+taxa <-select(homerange, "taxon", "common_name", "class","order","family","genus","species")
 taxa
 ```
 
 ```
-## # A tibble: 569 x 6
-##    taxon         common_name             class          order    family   genus 
-##    <fct>         <chr>                   <chr>          <fct>    <chr>    <chr> 
-##  1 lake fishes   american eel            actinopterygii anguill~ anguill~ angui~
-##  2 river fishes  blacktail redhorse      actinopterygii cyprini~ catosto~ moxos~
-##  3 river fishes  central stoneroller     actinopterygii cyprini~ cyprini~ campo~
-##  4 river fishes  rosyside dace           actinopterygii cyprini~ cyprini~ clino~
-##  5 river fishes  longnose dace           actinopterygii cyprini~ cyprini~ rhini~
-##  6 river fishes  muskellunge             actinopterygii esocifo~ esocidae esox  
-##  7 marine fishes pollack                 actinopterygii gadifor~ gadidae  polla~
-##  8 marine fishes saithe                  actinopterygii gadifor~ gadidae  polla~
-##  9 marine fishes lined surgeonfish       actinopterygii percifo~ acanthu~ acant~
-## 10 marine fishes orangespine unicornfish actinopterygii percifo~ acanthu~ naso  
+## # A tibble: 569 x 7
+##    taxon         common_name             class   order   family   genus  species
+##    <fct>         <chr>                   <chr>   <fct>   <chr>    <chr>  <chr>  
+##  1 lake fishes   american eel            actino~ anguil~ anguill~ angui~ rostra~
+##  2 river fishes  blacktail redhorse      actino~ cyprin~ catosto~ moxos~ poecil~
+##  3 river fishes  central stoneroller     actino~ cyprin~ cyprini~ campo~ anomal~
+##  4 river fishes  rosyside dace           actino~ cyprin~ cyprini~ clino~ fundul~
+##  5 river fishes  longnose dace           actino~ cyprin~ cyprini~ rhini~ catara~
+##  6 river fishes  muskellunge             actino~ esocif~ esocidae esox   masqui~
+##  7 marine fishes pollack                 actino~ gadifo~ gadidae  polla~ pollac~
+##  8 marine fishes saithe                  actino~ gadifo~ gadidae  polla~ virens 
+##  9 marine fishes lined surgeonfish       actino~ percif~ acanthu~ acant~ lineat~
+## 10 marine fishes orangespine unicornfish actino~ percif~ acanthu~ naso   litura~
 ## # ... with 559 more rows
 ```
 
@@ -439,7 +438,7 @@ arrange(deer, desc(log10_mass))
 **10. As measured by the data, which snake species has the smallest homerange? Show all of your work, please. Look this species up online and tell me about it!** **Snake is found in taxon column**   
 
 ```r
-#Builing Snake Database
+#Building Snake Database
 snake<-filter(homerange,taxon=="snakes")
 snake
 ```
@@ -487,11 +486,7 @@ arrange(snakehomerange,mean_hra_m2)
 ## # ... with 31 more rows
 ```
 
-```r
-#Schneideri
-```
-
-The Namaqua dwarf adder is a part of the schneideri species and belongs to the viperidae family. It is a dangerous snake that is from a Namaqualand and Nambia. 
+The Namaqua Dwarf Adder is a part of the schneideri species and belongs to the viperidae family. It is a dangerous snake that is from a Namaqualand and Nambia. 
 
 Reference:
 https://www.africansnakebiteinstitute.com/snake/namaqua-dwarf-adder/
