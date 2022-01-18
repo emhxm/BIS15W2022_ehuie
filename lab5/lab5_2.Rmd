@@ -36,6 +36,8 @@ superhero_powers <- readr::read_csv("data/super_hero_powers.csv", na = c("", "-9
 ## Data tidy
 1. Some of the names used in the `superhero_info` data are problematic so you should rename them here.  
 ```{r}
+superhero_info<- janitor::clean_names(superhero_info)
+names(superhero_info)
 
 ```
 
@@ -59,58 +61,79 @@ superhero_powers <- janitor::clean_names(superhero_powers)
 The `janitor` package has many awesome functions that we will explore. Here is its version of `table` which not only produces counts but also percentages. Very handy! Let's use it to explore the proportion of good guys and bad guys in the `superhero_info` data.  
 
 ```{r}
-#tabyl(superhero_info, alignment)
+tabyl(superhero_info, alignment)
 ```
 
 2. Notice that we have some neutral superheros! Who are they?
 ```{r}
-
+superhero_info%>%
+  filter(alignment=="neutral")
 ```
 
 ## `superhero_info`
 3. Let's say we are only interested in the variables name, alignment, and "race". How would you isolate these variables from `superhero_info`?
 ```{r}
-
+superhero_info%>%
+  select(name, alignment, race)
 ```
 
 ## Not Human
 4. List all of the superheros that are not human.
 ```{r}
-
+superhero_info%>%
+  filter(race!="Human")
 ```
 
 ## Good and Evil
 5. Let's make two different data frames, one focused on the "good guys" and another focused on the "bad guys".
 ```{r}
-
+good_guys<-filter(superhero_info,alignment=="good")
+good_guys
 ```
 
 ```{r}
-
+bad_guys<-filter(superhero_info,alignment=="bad")
+bad_guys
 ```
 
 6. For the good guys, use the `tabyl` function to summarize their "race".
 ```{r}
-
+tabyl(good_guys,race)
 ```
 
 7. Among the good guys, Who are the Asgardians?
 ```{r}
+good_guys%>%
+  filter(race=="Asgardian")
 
 ```
 
 8. Among the bad guys, who are the male humans over 200 inches in height?
 ```{r}
-
+bad_guys%>%
+  filter(race=="Human" & gender=="Male"& height>200)
+  
 ```
 
 9. OK, so are there more good guys or bad guys that are bald (personal interest)?
 ```{r}
+table(good_guys$hair_color)
+
+```
+
+```{r}
+table(bad_guys$hair_color)
+```
+
 
 ```
 
 10. Let's explore who the really "big" superheros are. In the `superhero_info` data, which have a height over 200 or weight greater than or equal to 450?
+
 ```{r}
+superhero_info %<%
+  filter(height>200 & weight>=450)
+```
 
 ```
 
