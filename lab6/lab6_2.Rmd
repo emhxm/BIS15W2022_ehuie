@@ -111,6 +111,12 @@ penguins%>%
   summarise(mean_bill_length_mm=mean(bill_length_mm, na.rm=TRUE), mean_bill_depth_mm=mean(bill_depth_mm,na.rm=TRUE), mean_flipper_length_mm=mean(flipper_length_mm,na.rm=TRUE),mean_body_mass_g=mean(body_mass_g,na.rm=TRUE),n_samples=n())
 ```
 
+```{r}
+penguins%>%
+  filter(species=="Adelie")%>%
+  summarise(mean_bill_length_mm=mean(bill_length_mm, na.rm=TRUE), mean_bill_depth_mm=mean(bill_depth_mm,na.rm=TRUE), mean_flipper_length_mm=mean(flipper_length_mm,na.rm=TRUE),mean_body_mass_g=mean(body_mass_g,na.rm=TRUE),n_samples=n())
+```
+
 2. How does the mean of `bill_length_mm` compare between penguin species?
 ```{r}
 penguins%>%
@@ -179,9 +185,19 @@ penguins %>%
 ## Practice
 1. Produce separate summaries of the mean and standard deviation for bill_length_mm, bill_depth_mm, and flipper_length_mm for each penguin species. Be sure to provide the number of samples.  
 mean
+#Mean
 ```{r}
-
+penguins%>%
+  group_by(species)%>%
+  summarize(across(c(bill_length_mm, bill_depth_mm, flipper_length_mm), na.rm=T, mean))
 ```
+#SD
+```{r}
+penguins%>%
+  group_by(species)%>%
+  summarize(across(c(bill_length_mm, bill_depth_mm, flipper_length_mm), na.rm=T, sd))
+```
+
 
 ## Wrap-up  
 
