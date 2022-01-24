@@ -502,13 +502,13 @@ mean #Mean</li>
 </ol>
 <pre class="r"><code>penguins%&gt;%
   group_by(species)%&gt;%
-  summarize(across(c(bill_length_mm, bill_depth_mm, flipper_length_mm), na.rm=T, mean))</code></pre>
-<pre><code>## # A tibble: 3 x 4
-##   species   bill_length_mm bill_depth_mm flipper_length_mm
-##   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;
-## 1 Adelie              38.8          18.3              190.
-## 2 Chinstrap           48.8          18.4              196.
-## 3 Gentoo              47.5          15.0              217.</code></pre>
+  summarize(across(c(bill_length_mm, bill_depth_mm, flipper_length_mm), na.rm=T,mean),n=n())</code></pre>
+<pre><code>## # A tibble: 3 x 5
+##   species   bill_length_mm bill_depth_mm flipper_length_mm     n
+##   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt; &lt;int&gt;
+## 1 Adelie              38.8          18.3              190.   152
+## 2 Chinstrap           48.8          18.4              196.    68
+## 3 Gentoo              47.5          15.0              217.   124</code></pre>
 <p>#SD</p>
 <pre class="r"><code>penguins%&gt;%
   group_by(species)%&gt;%

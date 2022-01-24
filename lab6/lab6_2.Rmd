@@ -189,7 +189,7 @@ mean
 ```{r}
 penguins%>%
   group_by(species)%>%
-  summarize(across(c(bill_length_mm, bill_depth_mm, flipper_length_mm), na.rm=T, mean))
+  summarize(across(c(bill_length_mm, bill_depth_mm, flipper_length_mm), na.rm=T,mean),n=n())
 ```
 #SD
 ```{r}
