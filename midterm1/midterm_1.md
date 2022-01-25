@@ -61,11 +61,11 @@ Wikipedia's definition of [data science](https://en.wikipedia.org/wiki/Data_scie
 
 1. (2 points) Consider the definition of data science above. Although we are only part-way through the quarter, what specific elements of data science do you feel we have practiced? Provide at least one specific example.
 
-We have developed processes and algorithms to extract knowledge and insights from noisy, structured, and unstructured data. From these processes, we are able to seek information on the data. For example, we were able to build data frames and import data frames, then use dplyr functions to select, filter, and arrange the data. 
+We have developed processes and algorithms to extract knowledge and insights from noisy, structured, and unstructured data.For example, we were able to remove missing values (NAs)and organize our variables. From these processes, we are able to seek information on the data. For example, we were able to build data frames and import data frames, then use dplyr functions to select, filter, and arrange the data. 
 
 2. (2 points) What is the most helpful or interesting thing you have learned so far in BIS 15L? What is something that you think needs more work or practice?  
 
-The most interesting thing I have learned so far is the ability to manipulate and create new data sets from original data frames; additionally, I enjoy being able to create a set of code that can help me understand what the data means.  Lately, I have been able to use what we have learned in class on my own lab data!
+The most interesting thing I have learned so far is the ability to manipulate and create new data sets from original data frames; additionally, I enjoy being able to create a novel set of code chunks that can help me understand what the data means.  Lately, I have been able to use what we have learned in class on my own lab data!
 
 One thing I would like to work on is making my code more efficient and streamlined, but I know this takes practice. 
 
@@ -175,8 +175,9 @@ elephants%>%
 
 7. (2 points) How does the average age and height of elephants compare by sex?
 
-Female: Mean Age = 12.8354; Mean Height = 190.0307;
-Male: Mean Age = 8.94514;Mean Height = 185.1312
+Female: Mean Age = 12.8354; Mean Height = 190.0307
+
+Male: Mean Age = 8.94514; Mean Height = 185.1312
 
 Female elephants have a greater average age and height than males. 
 
@@ -212,8 +213,9 @@ elephants%>%
 
 8. (2 points) How does the average height of elephants compare by sex for individuals over 20 years old. Include the min and max height as well as the number of individuals in the sample as part of your analysis.  
 
-Females over 20 years old average height: 232.2014;
-Males over 20 years old average height: 269.5931
+Females over 20 years old average height: 232.2014.
+
+Males over 20 years old average height: 269.5931.
 
 Males over 20 years old have a higher average height than females over 20 years old. 
 

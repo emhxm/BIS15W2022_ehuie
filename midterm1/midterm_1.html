@@ -202,11 +202,11 @@ pre code {
 <ol style="list-style-type: decimal">
 <li>(2 points) Consider the definition of data science above. Although we are only part-way through the quarter, what specific elements of data science do you feel we have practiced? Provide at least one specific example.</li>
 </ol>
-<p>We have developed processes and algorithms to extract knowledge and insights from noisy, structured, and unstructured data. From these processes, we are able to seek information on the data. For example, we were able to build data frames and import data frames, then use dplyr functions to select, filter, and arrange the data.</p>
+<p>We have developed processes and algorithms to extract knowledge and insights from noisy, structured, and unstructured data.For example, we were able to remove missing values (NAs)and organize our variables. From these processes, we are able to seek information on the data. For example, we were able to build data frames and import data frames, then use dplyr functions to select, filter, and arrange the data.</p>
 <ol start="2" style="list-style-type: decimal">
 <li>(2 points) What is the most helpful or interesting thing you have learned so far in BIS 15L? What is something that you think needs more work or practice?</li>
 </ol>
-<p>The most interesting thing I have learned so far is the ability to manipulate and create new data sets from original data frames; additionally, I enjoy being able to create a set of code that can help me understand what the data means. Lately, I have been able to use what we have learned in class on my own lab data!</p>
+<p>The most interesting thing I have learned so far is the ability to manipulate and create new data sets from original data frames; additionally, I enjoy being able to create a novel set of code chunks that can help me understand what the data means. Lately, I have been able to use what we have learned in class on my own lab data!</p>
 <p>One thing I would like to work on is making my code more efficient and streamlined, but I know this takes practice.</p>
 <p>In the midterm 1 folder there is a second folder called <code>data</code>. Inside the <code>data</code> folder, there is a .csv file called <code>ElephantsMF</code>. These data are from Phyllis Lee, Stirling University, and are related to Lee, P., et al. (2013), “Enduring consequences of early experiences: 40-year effects on survival and success among African elephants (Loxodonta africana),” Biology Letters, 9: 20130011. <a href="https://www.kaggle.com/mostafaelseidy/elephantsmf">kaggle</a>.</p>
 <ol start="3" style="list-style-type: decimal">
@@ -267,7 +267,8 @@ elephants%&gt;%
 <ol start="7" style="list-style-type: decimal">
 <li>(2 points) How does the average age and height of elephants compare by sex?</li>
 </ol>
-<p>Female: Mean Age = 12.8354; Mean Height = 190.0307; Male: Mean Age = 8.94514;Mean Height = 185.1312</p>
+<p>Female: Mean Age = 12.8354; Mean Height = 190.0307</p>
+<p>Male: Mean Age = 8.94514; Mean Height = 185.1312</p>
 <p>Female elephants have a greater average age and height than males.</p>
 <pre class="r"><code>#Mean Age and Height for Female
 
@@ -289,7 +290,8 @@ elephants%&gt;%
 <ol start="8" style="list-style-type: decimal">
 <li>(2 points) How does the average height of elephants compare by sex for individuals over 20 years old. Include the min and max height as well as the number of individuals in the sample as part of your analysis.</li>
 </ol>
-<p>Females over 20 years old average height: 232.2014; Males over 20 years old average height: 269.5931</p>
+<p>Females over 20 years old average height: 232.2014.</p>
+<p>Males over 20 years old average height: 269.5931.</p>
 <p>Males over 20 years old have a higher average height than females over 20 years old.</p>
 <pre class="r"><code>#Average height of female elephants over 20 years old
 elephants%&gt;%
