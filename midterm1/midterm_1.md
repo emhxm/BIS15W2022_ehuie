@@ -176,7 +176,7 @@ elephants%>%
 7. (2 points) How does the average age and height of elephants compare by sex?
 
 Female: Mean Age = 12.8354; Mean Height = 190.0307
-Male: Mean Age = 8.94514:;Mean Height = 185.1312
+Male: Mean Age = 8.94514;Mean Height = 185.1312
 
 Female elephants have a greater average age and height than males. 
 
@@ -212,7 +212,7 @@ elephants%>%
 
 8. (2 points) How does the average height of elephants compare by sex for individuals over 20 years old. Include the min and max height as well as the number of individuals in the sample as part of your analysis.  
 
-Females over 20 years old average height: 232.2014
+Females over 20 years old average height: 232.2014;
 Males over 20 years old average height: 269.5931
 
 Males over 20 years old have a higher average height than females over 20 years old. 
@@ -378,7 +378,7 @@ gabon%>%
 
 ```r
 gabon%>%
-  filter(distance<3, )%>%
+  filter(distance<3)%>%
   summarise((across(c(ra_apes,ra_birds, ra_elephant,ra_monkeys, ra_rodent,ra_ungulate), mean, na.rm=T)))
 ```
 
@@ -432,7 +432,6 @@ richness
 ## 2 Neither               10.5                8.75             19.2
 ## 3 Park                  10.4               11.4              21.9
 ```
-
 
 ```r
 summary(richness)
