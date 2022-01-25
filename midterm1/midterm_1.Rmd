@@ -1,0 +1,211 @@
+---
+title: "Midterm 1"
+author: "Emily Huie"
+date: "1/25/2022"
+output:
+  html_document: 
+    theme: spacelab
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Instructions
+Answer the following questions and complete the exercises in RMarkdown. Please embed all of your code and push your final work to your repository. Your code should be organized, clean, and run free from errors. Remember, you must remove the `#` for any included code chunks to run. Be sure to add your name to the author header above. You may use any resources to answer these questions (including each other), but you may not post questions to Open Stacks or external help sites. There are 15 total questions, each is worth 2 points.  
+
+Make sure to use the formatting conventions of RMarkdown to make your report neat and clean!  
+
+This exam is due by 12:00p on Thursday, January 27.  
+
+## Load the tidyverse
+If you plan to use any other libraries to complete this assignment then you should load them here.
+```{r}
+library(tidyverse)
+library(janitor)
+```
+
+## Questions  
+Wikipedia's definition of [data science](https://en.wikipedia.org/wiki/Data_science): "Data science is an interdisciplinary field that uses scientific methods, processes, algorithms and systems to extract knowledge and insights from noisy, structured and unstructured data, and apply knowledge and actionable insights from data across a broad range of application domains."  
+
+1. (2 points) Consider the definition of data science above. Although we are only part-way through the quarter, what specific elements of data science do you feel we have practiced? Provide at least one specific example.
+
+We have developed processes and algorithms to extract knowledge and insights from noisy, structured, and unstructured data. From these processes, we are able to seek information on the data. For example, we were able to build data frames and import data frames, then use dplyr functions to select, filter, and arrange the data. 
+
+2. (2 points) What is the most helpful or interesting thing you have learned so far in BIS 15L? What is something that you think needs more work or practice?  
+
+The most interesting thing I have learned so far is the ability to manipulate and create new data sets from original data frames; additionally, I enjoy being able to create a set of code that can help me understand what the data means.  Lately, I have been able to use what we have learned in class on my own lab data!
+
+One thing I would like to work on is making my code more efficient and streamlined, but I know this takes practice. 
+
+In the midterm 1 folder there is a second folder called `data`. Inside the `data` folder, there is a .csv file called `ElephantsMF`. These data are from Phyllis Lee, Stirling University, and are related to Lee, P., et al. (2013), "Enduring consequences of early experiences: 40-year effects on survival and success among African elephants (Loxodonta africana)," Biology Letters, 9: 20130011. [kaggle](https://www.kaggle.com/mostafaelseidy/elephantsmf).  
+
+3. (2 points) Please load these data as a new object called `elephants`. Use the function(s) of your choice to get an idea of the structure of the data. Be sure to show the class of each variable.
+
+```{r}
+#Loading data into a new object called 'elephants'
+elephants<-readr::read_csv("data/ElephantsMF.csv")
+```
+```{r}
+#Data Structure
+glimpse(elephants)
+```
+
+4. (2 points) Change the names of the variables to lower case and change the class of the variable `sex` to a factor.
+```{r}
+#Cleaned Names to Lower Case
+elephants<- janitor::clean_names(elephants)
+names(elephants)
+```
+
+```{r}
+#Changed class of variable 'sex' to a factor
+elephants<-elephants%>%
+  mutate(sex=as.factor(sex))
+```
+
+```{r}
+class(elephants$sex)
+```
+
+
+5. (2 points) How many male and female elephants are represented in the data?
+
+150 Females; 138 Males
+```{r}
+#Count function
+elephants%>%
+  count(sex)
+```
+
+6. (2 points) What is the average age all elephants in the data?
+
+Mean age of all elephants in data = 10.97132.
+```{r}
+elephants%>%
+  filter(!is.na(age))%>%
+  summarise(mean_age=mean(age))
+```
+
+7. (2 points) How does the average age and height of elephants compare by sex?
+
+Female: Mean Age = 12.8354; Mean Height = 190.0307
+Male: Mean Age = 8.94514:;Mean Height = 185.1312
+
+Female elephants have a greater average age and height than males. 
+```{r}
+#Mean Age and Height for Female
+
+elephants%>%
+  filter(!is.na(age), !is.na(height), sex=="F")%>%
+  summarise(f_mean_age=mean(age), f_mean_height=mean(height))
+```
+```{r}
+#Mean Age and Height for Male
+elephants%>%
+  filter(!is.na(age), !is.na(height), sex=="M")%>%
+  summarise(m_mean_age=mean(age), m_mean_height=mean(height))
+```
+
+
+8. (2 points) How does the average height of elephants compare by sex for individuals over 20 years old. Include the min and max height as well as the number of individuals in the sample as part of your analysis.  
+
+Females over 20 years old average height: 232.2014
+Males over 20 years old average height: 269.5931
+
+Males over 20 years old have a higher average height than females over 20 years old. 
+```{r}
+#Average height of female elephants over 20 years old
+elephants%>%
+  filter(age>20, sex=="F", !is.na(height))%>%
+  summarise(f_min_height=min(height),f_max_height=max(height),f_mean_height=mean(height), n_females=n())
+  
+```
+```{r}
+#Average height of male elephants over 20 years old
+elephants%>%
+  filter(age>20, sex=="M", !is.na(height))%>%
+  summarise(m_min_height=min(height),m_max_height=max(height),m_mean_height=mean(height), n_males=n())
+```
+
+
+For the next series of questions, we will use data from a study on vertebrate community composition and impacts from defaunation in [Gabon, Africa](https://en.wikipedia.org/wiki/Gabon). One thing to notice is that the data include 24 separate transects. Each transect represents a path through different forest management areas.  
+
+Reference: Koerner SE, Poulsen JR, Blanchard EJ, Okouyi J, Clark CJ. Vertebrate community composition and diversity declines along a defaunation gradient radiating from rural villages in Gabon. _Journal of Applied Ecology_. 2016. This paper, along with a description of the variables is included inside the midterm 1 folder.  
+
+9. (2 points) Load `IvindoData_DryadVersion.csv` and use the function(s) of your choice to get an idea of the overall structure. Change the variables `HuntCat` and `LandUse` to factors.
+```{r}
+#Load file
+gabon<-readr::read_csv("data/IvindoData_DryadVersion.csv")
+
+```
+```{r}
+#clean variables
+gabon<- janitor::clean_names(gabon)
+names(gabon)
+
+```
+
+```{r}
+#Data Structure
+glimpse(gabon)
+```
+```{r}
+#Change class of hunt_cat and land_use to factor
+gabon<-gabon%>%
+  mutate(hunt_cat=as.factor(hunt_cat), land_use=as.factor(land_use))
+```
+```{r}
+class(gabon$hunt_cat)
+class(gabon$land_use)
+```
+
+
+10. (4 points) For the transects with high and moderate hunting intensity, how does the average diversity of birds and mammals compare?
+Average diversity of birds is 1.639733 compared to average diversity of mammals which is 1.7086 so average diversity of mammals is higher. 
+```{r}
+gabon%>%
+  select(transect_id,hunt_cat,diversity_bird_species, diversity_mammal_species)%>%
+  filter(hunt_cat %in% c("Moderate", "High"))%>%
+  summarise(average_diversity_birds=mean(diversity_bird_species), average_diversity_mammals=mean(diversity_mammal_species))
+```
+
+11. (4 points) One of the conclusions in the study is that the relative abundance of animals drops off the closer you get to a village. Let's try to reconstruct this (without the statistics). How does the relative abundance (RA) of apes, birds, elephants, monkeys, rodents, and ungulates compare between sites that are less than 3km from a village to sites that are greater than 25km from a village? The variable `Distance` measures the distance of the transect from the nearest village. Hint: try using the `across` operator.  
+
+```{r}
+gabon%>%
+  filter(distance<3, )%>%
+  summarise((across(c(ra_apes,ra_birds, ra_elephant,ra_monkeys, ra_rodent,ra_ungulate), mean, na.rm=T)))
+```
+```{r}
+gabon%>%
+  filter(distance>25 )%>%
+  summarise((across(c(ra_apes,ra_birds, ra_elephant,ra_monkeys, ra_rodent,ra_ungulate), mean, na.rm=T)))
+```
+
+12. (4 points) Based on your interest, do one exploratory analysis on the `gabon` data of your choice. This analysis needs to include a minimum of two functions in `dplyr.`
+
+Identify which land use (park, logging, or neither) has the greatest average species richness for birds, mammals, and all large vertebrates. 
+
+What did I find? 
+Parks have the highest average number of mammal species(11.429) and large vertebrates (21.86), whereas neither logging concessions or national parks have the highest number of bird species (10.50)
+
+Large vertebrates have the lowest average number of species in neither logging or parks (19.25) as well as mammal species (8.750).
+Bird species have the lowest average number of species in logging areas (10.23). 
+
+These results may indicate that species richness for each group depends on the land use of that area. 
+
+```{r}
+richness<-gabon%>%
+  select(land_use, rich_bird_species, rich_mammal_species, rich_all_species)%>%
+  group_by(land_use)%>%
+  filter(!is.na(rich_bird_species), !is.na(rich_mammal_species), !is.na(rich_all_species))%>%
+  summarise(across(c(rich_bird_species, rich_mammal_species, rich_all_species),mean))
+richness
+```
+
+```{r}
+summary(richness)
+```
+
