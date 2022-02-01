@@ -2,10 +2,11 @@
 title: "Tidyr 2: `pivot_wider()`"
 date: "`r Sys.Date()`"
 output:
-  html_document:
+  html_document: 
     theme: spacelab
     toc: yes
     toc_float: yes
+    keep_md: yes
   pdf_document:
     toc: yes
 ---
@@ -97,11 +98,9 @@ heartrate3<- heartrate2%>%
 heartrate3
 ```
   
-```
 
 2. `unite()` is the opposite of separate(). Its syntax is straightforward. You only need to give a new column name and then list the columns to combine with a separation character.  Give it a try below by recombining patient and sex from `heartrate3`.  
-```{r}
-```
+
 
 ## `pivot_wider()`
 The opposite of `pivot_longer()`. You use `pivot_wider()` when you have an observation scattered across multiple rows. In the example below, `cases` and `population` represent variable names not observations.  
@@ -111,13 +110,11 @@ Rules:
 + `names_from` - Values in the `names_from` column will become new column names  
 + `values_from` - Cell values will be taken from the `values_from` column  
 ```{r}
-
-```
-
-```{r}
 tb_data <- read_csv("data/tb_data.csv")
 tb_data
 ```
+
+
 
 When using `pivot_wider()` we use `names_from` to identify the variables (new column names) and `values_from` to identify the values associated with the new columns.
 ```{r}
@@ -126,8 +123,16 @@ tb_data %>%
               values_from = "value")
 ```
 
+```{r}
+
+```
+
 ## Practice
 1. Load the `gene_exp.csv` data as a new object `gene_exp`. Are these data tidy? Use `pivot_wider()` to tidy the data.
+```{r}
+
+```
+
 ```{r}
 gene_exp <- readr::read_csv("data/gene_exp.csv")
 gene_exp
@@ -158,17 +163,23 @@ For the last practice example, I will use data from the awesome [R Ladies Sydney
 
 1. Load the beachbugs data and have a look.
 ```{r}
-
+beachbugs <- readr::read_csv("data/beachbugs_long.csv")
 ```
 
 2. Use `pivot_wider` to transform the data into wide format.
 ```{r}
-
+beachbugs2<-beachbugs%>%
+  pivot_wider(names_from="site", 
+              values_from="buglevels")
+beachbugs2
 ```
 
 3. Now, use `pivot_longer` to transform them back to long!
 ```{r}
-
+beachbugs2%>%
+  pivot_longer(-year,
+               names_to="site",
+               values_to="buglevels")
 ```
 
 ## Wrap-up  

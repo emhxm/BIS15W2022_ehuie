@@ -404,22 +404,18 @@ heartrate3</code></pre>
 ##  9 Radar    m     b             72
 ## 10 Margaret f     b             74
 ## # ... with 14 more rows</code></pre>
-<pre><code>
-2. `unite()` is the opposite of separate(). Its syntax is straightforward. You only need to give a new column name and then list the columns to combine with a separation character.  Give it a try below by recombining patient and sex from `heartrate3`.  
-
-
-## `pivot_wider()`
-The opposite of `pivot_longer()`. You use `pivot_wider()` when you have an observation scattered across multiple rows. In the example below, `cases` and `population` represent variable names not observations.  
-
-Rules:  
-+ `pivot_wider`(names_from, values_from)  
-+ `names_from` - Values in the `names_from` column will become new column names  
-+ `values_from` - Cell values will be taken from the `values_from` column  
-
-
-
-```r
-tb_data &lt;- read_csv(&quot;data/tb_data.csv&quot;)</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li><code>unite()</code> is the opposite of separate(). Its syntax is straightforward. You only need to give a new column name and then list the columns to combine with a separation character. Give it a try below by recombining patient and sex from <code>heartrate3</code>.</li>
+</ol>
+</div>
+<div id="pivot_wider" class="section level2">
+<h2><code>pivot_wider()</code></h2>
+<p>The opposite of <code>pivot_longer()</code>. You use <code>pivot_wider()</code> when you have an observation scattered across multiple rows. In the example below, <code>cases</code> and <code>population</code> represent variable names not observations.</p>
+<p>Rules:<br />
++ <code>pivot_wider</code>(names_from, values_from)<br />
++ <code>names_from</code> - Values in the <code>names_from</code> column will become new column names<br />
++ <code>values_from</code> - Cell values will be taken from the <code>values_from</code> column</p>
+<pre class="r"><code>tb_data &lt;- read_csv(&quot;data/tb_data.csv&quot;)</code></pre>
 <pre><code>## Rows: 12 Columns: 4</code></pre>
 <pre><code>## -- Column specification --------------------------------------------------------
 ## Delimiter: &quot;,&quot;
@@ -532,10 +528,57 @@ pivot_wider(names_from = (education_level), #new column names come from the educ
 <h2>Practice</h2>
 <p>For the last practice example, I will use data from the awesome <a href="https://rladiessydney.org/courses/ryouwithme/02-cleanitup-5/">R Ladies Sydney</a> blog. This data set is compiled by the NSW Office of Environment and Heritage contains the enterococci counts in water samples obtained from Sydney beaches as part of the Beachwatch Water Quality Program! The data set we’ll be working with is current as of October 13th 2018.</p>
 <ol style="list-style-type: decimal">
-<li><p>Load the beachbugs data and have a look.</p></li>
-<li><p>Use <code>pivot_wider</code> to transform the data into wide format.</p></li>
-<li><p>Now, use <code>pivot_longer</code> to transform them back to long!</p></li>
+<li>Load the beachbugs data and have a look.</li>
 </ol>
+<pre class="r"><code>beachbugs &lt;- readr::read_csv(&quot;data/beachbugs_long.csv&quot;)</code></pre>
+<pre><code>## Rows: 66 Columns: 3</code></pre>
+<pre><code>## -- Column specification --------------------------------------------------------
+## Delimiter: &quot;,&quot;
+## chr (1): site
+## dbl (2): year, buglevels</code></pre>
+<pre><code>## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Use <code>pivot_wider</code> to transform the data into wide format.</li>
+</ol>
+<pre class="r"><code>beachbugs2&lt;-beachbugs%&gt;%
+  pivot_wider(names_from=&quot;site&quot;, 
+              values_from=&quot;buglevels&quot;)
+beachbugs2</code></pre>
+<pre><code>## # A tibble: 6 x 12
+##    year `Bondi Beach` `Bronte Beach` `Clovelly Beach` `Coogee Beach`
+##   &lt;dbl&gt;         &lt;dbl&gt;          &lt;dbl&gt;            &lt;dbl&gt;          &lt;dbl&gt;
+## 1  2013          32.2           26.8             9.28           39.7
+## 2  2014          11.1           17.5            13.8            52.6
+## 3  2015          14.3           23.6             8.82           40.3
+## 4  2016          19.4           61.3            11.3            59.5
+## 5  2017          13.2           16.8             7.93           20.7
+## 6  2018          22.9           43.4            10.6            21.6
+## # ... with 7 more variables: Gordons Bay (East) &lt;dbl&gt;, Little Bay Beach &lt;dbl&gt;,
+## #   Malabar Beach &lt;dbl&gt;, Maroubra Beach &lt;dbl&gt;, South Maroubra Beach &lt;dbl&gt;,
+## #   South Maroubra Rockpool &lt;dbl&gt;, Tamarama Beach &lt;dbl&gt;</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Now, use <code>pivot_longer</code> to transform them back to long!</li>
+</ol>
+<pre class="r"><code>beachbugs2%&gt;%
+  pivot_longer(-year,
+               names_to=&quot;site&quot;,
+               values_to=&quot;buglevels&quot;)</code></pre>
+<pre><code>## # A tibble: 66 x 3
+##     year site                    buglevels
+##    &lt;dbl&gt; &lt;chr&gt;                       &lt;dbl&gt;
+##  1  2013 Bondi Beach                 32.2 
+##  2  2013 Bronte Beach                26.8 
+##  3  2013 Clovelly Beach               9.28
+##  4  2013 Coogee Beach                39.7 
+##  5  2013 Gordons Bay (East)          24.8 
+##  6  2013 Little Bay Beach           122.  
+##  7  2013 Malabar Beach              101.  
+##  8  2013 Maroubra Beach              47.1 
+##  9  2013 South Maroubra Beach        39.3 
+## 10  2013 South Maroubra Rockpool     96.4 
+## # ... with 56 more rows</code></pre>
 </div>
 <div id="wrap-up" class="section level2">
 <h2>Wrap-up</h2>
