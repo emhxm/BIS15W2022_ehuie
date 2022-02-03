@@ -37,7 +37,8 @@ This homework loosely follows the tutorial of [R Ladies Sydney](https://rladiess
 
 1. Start by loading the data `sydneybeaches`. Do some exploratory analysis to get an idea of the data structure.
 ```{r}
-sydneybeaches <- readr::read_csv("data/sydneybeaches.csv")
+sydneybeaches <- readr::read_csv("data/sydneybeaches.csv")%>% clean_names()
+
 ```
 ```{r}
 glimpse(sydneybeaches)
@@ -109,6 +110,7 @@ sydneybeaches_long_2
 sydneybeaches_date<-
   sydneybeaches_long%>%
   separate(date, into=c("day","month","year"), sep= "/")
+sydneybeaches_date
   
 ```
 
@@ -128,9 +130,15 @@ mean_sydneybeaches
 8. Make the output from question 7 easier to read by pivoting it to wide format.
 ```{r}
 mean_sydneybeaches_wide<-mean_sydneybeaches%>%
-   pivot_wider(names_from = "year",
+   pivot_wider(names_from = "site",
               values_from = "mean_entero")
 mean_sydneybeaches_wide
+```
+```{r}
+mean_sydneybeaches_wide2<-mean_sydneybeaches%>%
+   pivot_wider(names_from = "year",
+              values_from = "mean_entero")
+mean_sydneybeaches_wide2
 ```
 
 
@@ -138,9 +146,10 @@ mean_sydneybeaches_wide
 South Maroubra Rockpool
 
 ```{r}
-mean_sydneybeaches_wide%>%
-  select(site,`2018`)%>%
+mean_sydneybeaches_wide2%>%
+  select(`2018`)%>%
   arrange(desc(`2018`))
+  
 ```
 
 

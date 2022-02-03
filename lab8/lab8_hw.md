@@ -38,7 +38,7 @@ This homework loosely follows the tutorial of [R Ladies Sydney](https://rladiess
 1. Start by loading the data `sydneybeaches`. Do some exploratory analysis to get an idea of the data structure.
 
 ```r
-sydneybeaches <- readr::read_csv("data/sydneybeaches.csv")
+sydneybeaches <- readr::read_csv("data/sydneybeaches.csv")%>% clean_names()
 ```
 
 ```
@@ -65,14 +65,14 @@ glimpse(sydneybeaches)
 ```
 ## Rows: 3,690
 ## Columns: 8
-## $ BeachId                   <dbl> 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, ~
-## $ Region                    <chr> "Sydney City Ocean Beaches", "Sydney City Oc~
-## $ Council                   <chr> "Randwick Council", "Randwick Council", "Ran~
-## $ Site                      <chr> "Clovelly Beach", "Clovelly Beach", "Clovell~
-## $ Longitude                 <dbl> 151.2675, 151.2675, 151.2675, 151.2675, 151.~
-## $ Latitude                  <dbl> -33.91449, -33.91449, -33.91449, -33.91449, ~
-## $ Date                      <chr> "02/01/2013", "06/01/2013", "12/01/2013", "1~
-## $ `Enterococci (cfu/100ml)` <dbl> 19, 3, 2, 13, 8, 7, 11, 97, 3, 0, 6, 0, 1, 8~
+## $ beach_id              <dbl> 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, ~
+## $ region                <chr> "Sydney City Ocean Beaches", "Sydney City Ocean ~
+## $ council               <chr> "Randwick Council", "Randwick Council", "Randwic~
+## $ site                  <chr> "Clovelly Beach", "Clovelly Beach", "Clovelly Be~
+## $ longitude             <dbl> 151.2675, 151.2675, 151.2675, 151.2675, 151.2675~
+## $ latitude              <dbl> -33.91449, -33.91449, -33.91449, -33.91449, -33.~
+## $ date                  <chr> "02/01/2013", "06/01/2013", "12/01/2013", "18/01~
+## $ enterococci_cfu_100ml <dbl> 19, 3, 2, 13, 8, 7, 11, 97, 3, 0, 6, 0, 1, 8, 3,~
 ```
 
 ```r
@@ -99,38 +99,33 @@ Table: Data summary
 
 |skim_variable | n_missing| complete_rate| min| max| empty| n_unique| whitespace|
 |:-------------|---------:|-------------:|---:|---:|-----:|--------:|----------:|
-|Region        |         0|             1|  25|  25|     0|        1|          0|
-|Council       |         0|             1|  16|  16|     0|        2|          0|
-|Site          |         0|             1|  11|  23|     0|       11|          0|
-|Date          |         0|             1|  10|  10|     0|      344|          0|
+|region        |         0|             1|  25|  25|     0|        1|          0|
+|council       |         0|             1|  16|  16|     0|        2|          0|
+|site          |         0|             1|  11|  23|     0|       11|          0|
+|date          |         0|             1|  10|  10|     0|      344|          0|
 
 
 **Variable type: numeric**
 
-|skim_variable           | n_missing| complete_rate|   mean|     sd|     p0|    p25|    p50|    p75|    p100|hist                                     |
-|:-----------------------|---------:|-------------:|------:|------:|------:|------:|------:|------:|-------:|:----------------------------------------|
-|BeachId                 |         0|          1.00|  25.87|   2.08|  22.00|  24.00|  26.00|  27.40|   29.00|▆▃▇▇▆ |
-|Longitude               |         0|          1.00| 151.26|   0.01| 151.25| 151.26| 151.26| 151.27|  151.28|▅▇▂▆▂ |
-|Latitude                |         0|          1.00| -33.93|   0.03| -33.98| -33.95| -33.92| -33.90|  -33.89|▆▇▁▇▇ |
-|Enterococci (cfu/100ml) |        29|          0.99|  33.92| 154.92|   0.00|   1.00|   5.00|  17.00| 4900.00|▇▁▁▁▁ |
+|skim_variable         | n_missing| complete_rate|   mean|     sd|     p0|    p25|    p50|    p75|    p100|hist                                     |
+|:---------------------|---------:|-------------:|------:|------:|------:|------:|------:|------:|-------:|:----------------------------------------|
+|beach_id              |         0|          1.00|  25.87|   2.08|  22.00|  24.00|  26.00|  27.40|   29.00|▆▃▇▇▆ |
+|longitude             |         0|          1.00| 151.26|   0.01| 151.25| 151.26| 151.26| 151.27|  151.28|▅▇▂▆▂ |
+|latitude              |         0|          1.00| -33.93|   0.03| -33.98| -33.95| -33.92| -33.90|  -33.89|▆▇▁▇▇ |
+|enterococci_cfu_100ml |        29|          0.99|  33.92| 154.92|   0.00|   1.00|   5.00|  17.00| 4900.00|▇▁▁▁▁ |
 
 ```r
 names(sydneybeaches)
 ```
 
 ```
-## [1] "BeachId"                 "Region"                 
-## [3] "Council"                 "Site"                   
-## [5] "Longitude"               "Latitude"               
-## [7] "Date"                    "Enterococci (cfu/100ml)"
+## [1] "beach_id"              "region"                "council"              
+## [4] "site"                  "longitude"             "latitude"             
+## [7] "date"                  "enterococci_cfu_100ml"
 ```
 
 ```r
 anyNA(sydneybeaches$date)
-```
-
-```
-## Warning: Unknown or uninitialised column: `date`.
 ```
 
 ```
@@ -333,6 +328,24 @@ sydneybeaches_long_2
 sydneybeaches_date<-
   sydneybeaches_long%>%
   separate(date, into=c("day","month","year"), sep= "/")
+sydneybeaches_date
+```
+
+```
+## # A tibble: 3,690 x 5
+##    site           day   month year  enterococci_cfu_100ml
+##    <chr>          <chr> <chr> <chr>                 <dbl>
+##  1 Clovelly Beach 02    01    2013                     19
+##  2 Clovelly Beach 06    01    2013                      3
+##  3 Clovelly Beach 12    01    2013                      2
+##  4 Clovelly Beach 18    01    2013                     13
+##  5 Clovelly Beach 30    01    2013                      8
+##  6 Clovelly Beach 05    02    2013                      7
+##  7 Clovelly Beach 11    02    2013                     11
+##  8 Clovelly Beach 23    02    2013                     97
+##  9 Clovelly Beach 07    03    2013                      3
+## 10 Clovelly Beach 25    03    2013                      0
+## # ... with 3,680 more rows
 ```
 
 
@@ -376,9 +389,31 @@ mean_sydneybeaches
 
 ```r
 mean_sydneybeaches_wide<-mean_sydneybeaches%>%
-   pivot_wider(names_from = "year",
+   pivot_wider(names_from = "site",
               values_from = "mean_entero")
 mean_sydneybeaches_wide
+```
+
+```
+## # A tibble: 6 x 12
+##   year  `Bondi Beach` `Bronte Beach` `Clovelly Beach` `Coogee Beach`
+##   <chr>         <dbl>          <dbl>            <dbl>          <dbl>
+## 1 2013           32.2           26.8             9.28           39.7
+## 2 2014           11.1           17.5            13.8            52.6
+## 3 2015           14.3           23.6             8.82           40.3
+## 4 2016           19.4           61.3            11.3            59.5
+## 5 2017           13.2           16.8             7.93           20.7
+## 6 2018           22.9           43.4            10.6            21.6
+## # ... with 7 more variables: Gordons Bay (East) <dbl>, Little Bay Beach <dbl>,
+## #   Malabar Beach <dbl>, Maroubra Beach <dbl>, South Maroubra Beach <dbl>,
+## #   South Maroubra Rockpool <dbl>, Tamarama Beach <dbl>
+```
+
+```r
+mean_sydneybeaches_wide2<-mean_sydneybeaches%>%
+   pivot_wider(names_from = "year",
+              values_from = "mean_entero")
+mean_sydneybeaches_wide2
 ```
 
 ```
@@ -405,9 +440,13 @@ South Maroubra Rockpool
 
 
 ```r
-mean_sydneybeaches_wide%>%
-  select(site,`2018`)%>%
+mean_sydneybeaches_wide2%>%
+  select(`2018`)%>%
   arrange(desc(`2018`))
+```
+
+```
+## Adding missing grouping variables: `site`
 ```
 
 ```
