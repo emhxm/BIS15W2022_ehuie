@@ -3,9 +3,9 @@ title: "Lab 8 Homework"
 author: "Emily Huie"
 date: "2/2/2022"
 output:
-  html_document:
+  html_document: 
     theme: spacelab
-    toc: no
+    keep_md: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -135,11 +135,12 @@ mean_sydneybeaches_wide
 
 
 9. What was the most polluted beach in 2018?
+South Maroubra Rockpool
 
 ```{r}
 mean_sydneybeaches_wide%>%
-  select(site,'2018')%>%
-  arrange(desc('2018'))
+  select(site,`2018`)%>%
+  arrange(desc(`2018`))
 ```
 
 
