@@ -1,6 +1,6 @@
 ---
 title: "Data Visualization: `ggplot` part 1"
-date: "`r Sys.Date()`"
+date: "2022-02-05"
 output:
   html_document: 
     theme: spacelab
@@ -25,7 +25,8 @@ At this point you should feel comfortable working in RStudio and using `dplyr` a
 - [ggplot2 cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)  
 
 ## Libraries
-```{r message=FALSE, warning=FALSE}
+
+```r
 library(tidyverse)
 library(naniar)
 library(janitor)
@@ -54,37 +55,66 @@ We start by calling the ggplot function, identifying the data, and specifying th
 
 ## Example
 To make things easy, let's start with some built in data.
-```{r}
+
+```r
 ?iris
+```
+
+```
+## starting httpd help server ... done
+```
+
+```r
 names(iris)
 ```
 
-```{r}
+```
+## [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species"
+```
+
+
+```r
 glimpse(iris)
 ```
 
+```
+## Rows: 150
+## Columns: 5
+## $ Sepal.Length <dbl> 5.1, 4.9, 4.7, 4.6, 5.0, 5.4, 4.6, 5.0, 4.4, 4.9, 5.4, 4.~
+## $ Sepal.Width  <dbl> 3.5, 3.0, 3.2, 3.1, 3.6, 3.9, 3.4, 3.4, 2.9, 3.1, 3.7, 3.~
+## $ Petal.Length <dbl> 1.4, 1.4, 1.3, 1.5, 1.4, 1.7, 1.4, 1.5, 1.4, 1.5, 1.5, 1.~
+## $ Petal.Width  <dbl> 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1, 0.2, 0.~
+## $ Species      <fct> setosa, setosa, setosa, setosa, setosa, setosa, setosa, s~
+```
+
 To make a plot, we need to first specify the data and map the aesthetics. The aesthetics include how each variable in our data set will be used. In the example below, I am using the aes() function to identify the x and y variables in the plot.
-```{r}
+
+```r
 ggplot(data=iris, mapping=aes(x=Species, y=Petal.Length))
 ```
+
+![](lab9_1_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 Notice that we have a nice background, labeled axes, and even a value range of our variables on the y-axis- but no plot. This is because we need to tell ggplot how we want our data represented. This is called the geometry or `geom()`. There are many types of `geom`, see the ggplot [cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf).
 
 Here we specify that we want a boxplot, indicated by `geom_boxplot()`.
-```{r}
+
+```r
 ggplot(data=iris, mapping=aes(x=Species, y=Petal.Length))+geom_boxplot()
 ```
 
+![](lab9_1_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+
 ## Practice
 1. Use the iris data to build a scatterplot that compares sepal length vs. sepal width. Use the cheat sheet or help to find the correct `geom_` for a scatterplot.
-```{r}
+
+```r
 ggplot(data=iris, mapping=aes(x=Sepal.Width, y=Sepal.Length))+geom_point()
-
 ```
 
-```{r}
+![](lab9_1_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
-```
+
 
 
 ## Scatterplots and barplots
@@ -94,22 +124,87 @@ Now that we have a general idea of the syntax, let's start by working with two s
 **Database of vertebrate home range sizes.**  
 Reference: Tamburello N, Cote IM, Dulvy NK (2015) Energy and the scaling of animal space use. The American Naturalist 186(2):196-211. http://dx.doi.org/10.1086/682070.  
 Data: http://datadryad.org/resource/doi:10.5061/dryad.q5j65/1
-```{r}
+
+```r
 library(here)
 ```
 
-```{r}
+
+```r
 homerange <- read_csv(here("lab9", "data", "Tamburelloetal_HomeRangeDatabase.csv"))%>%clean_names()
+```
+
+```
+## Rows: 569 Columns: 24
+```
+
+```
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr (16): taxon, common.name, class, order, family, genus, species, primarym...
+## dbl  (8): mean.mass.g, log10.mass, mean.hra.m2, log10.hra, dimension, preyma...
+```
+
+```
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 ## Practice
 1. What is the structure of the `homerange` data? Does it have any NA's? Is it tidy? Do a quick exploratory analysis of your choice below.
-```{r}
+
+```r
 glimpse(homerange)
 ```
 
-```{r}
+```
+## Rows: 569
+## Columns: 24
+## $ taxon                      <chr> "lake fishes", "river fishes", "river fishe~
+## $ common_name                <chr> "american eel", "blacktail redhorse", "cent~
+## $ class                      <chr> "actinopterygii", "actinopterygii", "actino~
+## $ order                      <chr> "anguilliformes", "cypriniformes", "cyprini~
+## $ family                     <chr> "anguillidae", "catostomidae", "cyprinidae"~
+## $ genus                      <chr> "anguilla", "moxostoma", "campostoma", "cli~
+## $ species                    <chr> "rostrata", "poecilura", "anomalum", "fundu~
+## $ primarymethod              <chr> "telemetry", "mark-recapture", "mark-recapt~
+## $ n                          <chr> "16", NA, "20", "26", "17", "5", "2", "2", ~
+## $ mean_mass_g                <dbl> 887.00, 562.00, 34.00, 4.00, 4.00, 3525.00,~
+## $ log10_mass                 <dbl> 2.9479236, 2.7497363, 1.5314789, 0.6020600,~
+## $ alternative_mass_reference <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,~
+## $ mean_hra_m2                <dbl> 282750.00, 282.10, 116.11, 125.50, 87.10, 3~
+## $ log10_hra                  <dbl> 5.4514026, 2.4504031, 2.0648696, 2.0986437,~
+## $ hra_reference              <chr> "Minns, C. K. 1995. Allometry of home range~
+## $ realm                      <chr> "aquatic", "aquatic", "aquatic", "aquatic",~
+## $ thermoregulation           <chr> "ectotherm", "ectotherm", "ectotherm", "ect~
+## $ locomotion                 <chr> "swimming", "swimming", "swimming", "swimmi~
+## $ trophic_guild              <chr> "carnivore", "carnivore", "carnivore", "car~
+## $ dimension                  <dbl> 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3~
+## $ preymass                   <dbl> NA, NA, NA, NA, NA, NA, 1.39, NA, NA, NA, N~
+## $ log10_preymass             <dbl> NA, NA, NA, NA, NA, NA, 0.1430148, NA, NA, ~
+## $ ppmr                       <dbl> NA, NA, NA, NA, NA, NA, 530, NA, NA, NA, NA~
+## $ prey_size_reference        <chr> NA, NA, NA, NA, NA, NA, "Brose U, et al. 20~
+```
+
+
+```r
 names(homerange)
+```
+
+```
+##  [1] "taxon"                      "common_name"               
+##  [3] "class"                      "order"                     
+##  [5] "family"                     "genus"                     
+##  [7] "species"                    "primarymethod"             
+##  [9] "n"                          "mean_mass_g"               
+## [11] "log10_mass"                 "alternative_mass_reference"
+## [13] "mean_hra_m2"                "log10_hra"                 
+## [15] "hra_reference"              "realm"                     
+## [17] "thermoregulation"           "locomotion"                
+## [19] "trophic_guild"              "dimension"                 
+## [21] "preymass"                   "log10_preymass"            
+## [23] "ppmr"                       "prey_size_reference"
 ```
 
 
@@ -117,78 +212,155 @@ names(homerange)
 Scatter plots are good at revealing relationships that are not readily visible in the raw data. For now, we will not add regression lines or calculate any r^2^ values.  
 
 In the case below, we are exploring whether or not there is a relationship between animal mass and home range. We are using the **log transformed values** because there is a large difference in mass and home range among the different species in the data.
-```{r}
+
+```r
 names(homerange)
 ```
 
-```{r}
+```
+##  [1] "taxon"                      "common_name"               
+##  [3] "class"                      "order"                     
+##  [5] "family"                     "genus"                     
+##  [7] "species"                    "primarymethod"             
+##  [9] "n"                          "mean_mass_g"               
+## [11] "log10_mass"                 "alternative_mass_reference"
+## [13] "mean_hra_m2"                "log10_hra"                 
+## [15] "hra_reference"              "realm"                     
+## [17] "thermoregulation"           "locomotion"                
+## [19] "trophic_guild"              "dimension"                 
+## [21] "preymass"                   "log10_preymass"            
+## [23] "ppmr"                       "prey_size_reference"
+```
+
+
+```r
 ggplot(data = homerange, mapping = aes(x = log10_mass, y = log10_hra)) + geom_point()
 ```
 
+![](lab9_1_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+
 In big data sets with lots of overlapping values, over-plotting can be an issue. `geom_jitter()` is similar to `geom_point()` but it helps with over plotting by adding some random noise to the data and separating some of the individual points.
-```{r}
+
+```r
 ggplot(data = homerange, mapping = aes(x = log10_mass, y = log10_hra)) +
   geom_jitter()
 ```
 
+![](lab9_1_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+
 To add a regression (best of fit) line, we just add another layer.
-```{r}
+
+```r
 ggplot(data=homerange, mapping=aes(x=log10_mass, y=log10_hra)) +
   geom_point()+
   geom_smooth(method=lm, se=T) #adds the regression line, `se=TRUE` will add standard error
 ```
 
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
+
+![](lab9_1_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+
 ### Practice
 1. What is the relationship between log10.hra and log10.preymass? What do you notice about how ggplot treats NA's?
-```{r}
+
+```r
 ggplot(data=homerange, mapping=aes(x=log10_hra, y=log10_preymass)) +
   geom_point()+
   geom_smooth(method=lm, se=T)
 ```
 
-```{r}
+```
+## `geom_smooth()` using formula 'y ~ x'
+```
 
 ```
+## Warning: Removed 502 rows containing non-finite values (stat_smooth).
+```
+
+```
+## Warning: Removed 502 rows containing missing values (geom_point).
+```
+
+![](lab9_1_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+
+
 
 ### Bar Plot: `geom_bar()`
 The simplest type of bar plot counts the number of observations in a categorical variable. In this case, we want to know how many observations are present in the variable `trophic.guild`. Notice that we do not specify a y-axis because it is count by default.  
 
-```{r}
+
+```r
 names(homerange)
 ```
 
-```{r}
+```
+##  [1] "taxon"                      "common_name"               
+##  [3] "class"                      "order"                     
+##  [5] "family"                     "genus"                     
+##  [7] "species"                    "primarymethod"             
+##  [9] "n"                          "mean_mass_g"               
+## [11] "log10_mass"                 "alternative_mass_reference"
+## [13] "mean_hra_m2"                "log10_hra"                 
+## [15] "hra_reference"              "realm"                     
+## [17] "thermoregulation"           "locomotion"                
+## [19] "trophic_guild"              "dimension"                 
+## [21] "preymass"                   "log10_preymass"            
+## [23] "ppmr"                       "prey_size_reference"
+```
+
+
+```r
 homerange %>% 
   count(trophic_guild)
 ```
 
+```
+## # A tibble: 2 x 2
+##   trophic_guild     n
+##   <chr>         <int>
+## 1 carnivore       342
+## 2 herbivore       227
+```
+
 Also notice that we can use pipes! The `mapping=` function is implied by `aes` and so is often left out. 
-```{r}
+
+```r
 homerange %>% 
   ggplot(aes(x=trophic_guild)) + 
   geom_bar()
 ```
 
+![](lab9_1_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+
 ### Bar Plot: `geom_col()`
 Unlike `geom_bar()`, `geom_col()` allows us to specify an x-axis and a y-axis.
-```{r}
+
+```r
 homerange %>% 
   filter(family=="salmonidae") %>% 
   ggplot(aes(x=common_name, y=log10_mass))+
   geom_col()
 ```
 
+![](lab9_1_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
+
 `geom_bar()` with `stat="identity"`
 `stat="identity"` allows us to map a variable to the y-axis so that we aren't restricted to counts.
-```{r}
+
+```r
 homerange %>% 
   filter(family=="salmonidae") %>% 
   ggplot(aes(x=common_name, y=log10_mass))+
   geom_bar(stat="identity")
 ```
 
+![](lab9_1_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+
 The plot below is the same but uses `geom_col()`
-```{r}
+
+```r
 homerange %>% 
   group_by(class) %>% 
   summarize(mean_body_wt=mean(log10_mass)) %>% 
@@ -196,53 +368,48 @@ homerange %>%
   geom_col()
 ```
 
+![](lab9_1_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
+
 ## Practice
 1. Filter the `homerange` data to include `mammals` only.
-```{r}
+
+```r
 mammals<-homerange%>%
   filter(taxon=="mammals")
 ```
 
-```{r}
 
-```
 
-```{r}
 
-```
 
 
 2. Are there more herbivores or carnivores in mammals? Make a bar plot that shows their relative numbers.
-```{r}
+
+```r
 mammals%>%
   ggplot(aes(x=trophic_guild))+geom_bar()
-  
-  
 ```
 
-```{r}
+![](lab9_1_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
 
-```
+
 
 
 3. Make a bar plot that shows the masses of the top 10 smallest mammals.
-```{r}
+
+```r
 mammals%>%
   top_n(-10, log10_mass)%>%
   ggplot(aes(x=common_name, y=log10_mass))+geom_col()+coord_flip()
 ```
 
-```{r}
+![](lab9_1_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
 
-```
 
-```{r}
 
-```
 
-```{r}
 
-```
+
 
 ## That's it, let's take a break!   
 
