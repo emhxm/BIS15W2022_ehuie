@@ -1,7 +1,7 @@
 ---
 title: "Lab 10 Homework"
-author: "Please Add Your Name Here"
-date: "`r Sys.Date()`"
+author: "Emily Huie"
+date: "2/9/2022"
 output:
   html_document: 
     theme: spacelab
@@ -105,7 +105,7 @@ deserts%>%
 
 ```{r}
 deserts%>%
-  ggplot(aes(x=taxa, fill=taxa))+geom_bar()+scale_y_log10()+labs(title="Taxa Distribution", x="Taxa", y="Log Scaled Count")+theme(plot.title = element_text(size = 12, face = "bold"),
+  ggplot(aes(x=taxa, fill=taxa))+geom_bar()+labs(title="Taxa Distribution", x="Taxa", y="Log Scaled Count")+theme(plot.title = element_text(size = 12, face = "bold"),
         axis.text = element_text(size = 10),
         axis.title = element_text(size = 10))
 ```
@@ -114,7 +114,7 @@ deserts%>%
 4. For the taxa included in the study, use the fill option to show the proportion of individuals sampled by `plot_type.`
 ```{r}
 deserts%>%
-  ggplot(aes(x=taxa,  fill=plot_type))+geom_bar(position="dodge")+ scale_y_log10()+ labs(title="Proportion of Plot Type per Taxa", x="Taxa", fill="plot tyes")+  theme(axis.text.x = element_text(angle = 60, hjust = 1)) 
+  ggplot(aes(x=taxa,  fill=plot_type))+geom_bar(position="dodge")+ scale_y_log10()+ labs(title="Proportion of Plot Type per Taxa", x="Taxa", y="plot tyes")+  theme(axis.text.x = element_text(angle = 60, hjust = 1)) 
 
 ```
 
@@ -157,7 +157,7 @@ merriami%>%
 Overplotting is an issue because we see a lot of dots that overlap with each other. 
 ```{r}
 deserts%>%
-  ggplot(aes(x=weight,y=hindfoot_length))+geom_point()+geom_smooth(method=lm, se=T)
+  ggplot(aes(x=weight,y=hindfoot_length, color=species))+geom_point()+geom_smooth(method=lm, se=T)
 ```
 
 
@@ -173,7 +173,7 @@ deserts%>%
 deserts%>%
   filter(species %in% c("albigula","spectabilis"),!is.na(weight),!is.na(hindfoot_length), !sex=="NA")%>%
   mutate(ratio=weight/hindfoot_length)%>%
-  ggplot(aes(x=species,fill=sex, y=ratio))+geom_col(position="dodge")+theme(axis.text.x = element_text(angle = 60, hjust = 1))+labs(title="Ratio of Weight and Hindfoot Length of Top Two Species by Sex", x="Species", y="Ratio")
+  ggplot(aes(x=species,fill=sex, y=ratio))+geom_boxplot()+theme(axis.text.x = element_text(angle = 60, hjust = 1))+labs(title="Ratio of Weight and Hindfoot Length of Top Two Species by Sex", x="Species", y="Ratio")
 ```
 
 
@@ -187,7 +187,15 @@ deserts%>%
   summarise(n_species=n_distinct(species))%>%
   ggplot(aes(x=taxa,y=n_species, fill=n_species))+geom_col()+theme(axis.text.x = element_text(angle = 60, hjust = 1))+labs(title="Number of Species", x="Taxa", y="Count")
 ```
-
+_What are the different types of species per taxa in Percentage?_
+```{r}
+deserts%>%
+ggplot(aes(x = taxa, fill =species))+
+  geom_bar(position = position_fill())+ 
+  scale_y_continuous(labels = scales::percent)+
+  coord_flip()
+```
+_What are the species per taxa?_
 ```{r}
 deserts%>%
   group_by(species,taxa)%>%

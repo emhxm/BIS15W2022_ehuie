@@ -1,7 +1,7 @@
 ---
 title: "Lab 10 Homework"
-author: "Please Add Your Name Here"
-date: "2022-02-09"
+author: "Emily Huie"
+date: "2/9/2022"
 output:
   html_document: 
     theme: spacelab
@@ -314,7 +314,7 @@ deserts%>%
 
 ```r
 deserts%>%
-  ggplot(aes(x=taxa, fill=taxa))+geom_bar()+scale_y_log10()+labs(title="Taxa Distribution", x="Taxa", y="Log Scaled Count")+theme(plot.title = element_text(size = 12, face = "bold"),
+  ggplot(aes(x=taxa, fill=taxa))+geom_bar()+labs(title="Taxa Distribution", x="Taxa", y="Log Scaled Count")+theme(plot.title = element_text(size = 12, face = "bold"),
         axis.text = element_text(size = 10),
         axis.title = element_text(size = 10))
 ```
@@ -326,7 +326,7 @@ deserts%>%
 
 ```r
 deserts%>%
-  ggplot(aes(x=taxa,  fill=plot_type))+geom_bar(position="dodge")+ scale_y_log10()+ labs(title="Proportion of Plot Type per Taxa", x="Taxa", fill="plot tyes")+  theme(axis.text.x = element_text(angle = 60, hjust = 1)) 
+  ggplot(aes(x=taxa,  fill=plot_type))+geom_bar(position="dodge")+ scale_y_log10()+ labs(title="Proportion of Plot Type per Taxa", x="Taxa", y="plot tyes")+  theme(axis.text.x = element_text(angle = 60, hjust = 1)) 
 ```
 
 ![](lab10_hw_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
@@ -405,7 +405,7 @@ Overplotting is an issue because we see a lot of dots that overlap with each oth
 
 ```r
 deserts%>%
-  ggplot(aes(x=weight,y=hindfoot_length))+geom_point()+geom_smooth(method=lm, se=T)
+  ggplot(aes(x=weight,y=hindfoot_length, color=species))+geom_point()+geom_smooth(method=lm, se=T)
 ```
 
 ```
@@ -454,7 +454,7 @@ deserts%>%
 deserts%>%
   filter(species %in% c("albigula","spectabilis"),!is.na(weight),!is.na(hindfoot_length), !sex=="NA")%>%
   mutate(ratio=weight/hindfoot_length)%>%
-  ggplot(aes(x=species,fill=sex, y=ratio))+geom_col(position="dodge")+theme(axis.text.x = element_text(angle = 60, hjust = 1))+labs(title="Ratio of Weight and Hindfoot Length of Top Two Species by Sex", x="Species", y="Ratio")
+  ggplot(aes(x=species,fill=sex, y=ratio))+geom_boxplot()+theme(axis.text.x = element_text(angle = 60, hjust = 1))+labs(title="Ratio of Weight and Hindfoot Length of Top Two Species by Sex", x="Species", y="Ratio")
 ```
 
 ![](lab10_hw_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
@@ -473,7 +473,18 @@ deserts%>%
 ```
 
 ![](lab10_hw_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
+_What are the different types of species per taxa in Percentage?_
 
+```r
+deserts%>%
+ggplot(aes(x = taxa, fill =species))+
+  geom_bar(position = position_fill())+ 
+  scale_y_continuous(labels = scales::percent)+
+  coord_flip()
+```
+
+![](lab10_hw_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
+_What are the species per taxa?_
 
 ```r
 deserts%>%
@@ -481,7 +492,7 @@ deserts%>%
   ggplot(aes(x=taxa,y=species, fill=species))+geom_col(position="dodge")+coord_flip()
 ```
 
-![](lab10_hw_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
+![](lab10_hw_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
 
 
 ## Push your final code to GitHub!
