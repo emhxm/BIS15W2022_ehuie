@@ -1,0 +1,78 @@
+---
+title: "Cites Group Project"
+author: "Emily Huie"
+date: "2/10/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(RColorBrewer)
+library(paletteer)
+library(janitor)
+library(here)
+library(naniar)
+
+```
+
+```{r}
+indian_food<- read_csv(here("group_project", "indian_food.csv"))%>% clean_names()
+```
+
+
+```{r}
+indian_food
+```
+```{r}
+summary(indian_food)
+```
+
+
+```{r}
+indian_food<-indian_food%>%
+  na_if("-1")
+```
+```{r}
+summary(indian_food)
+```
+
+```{r}
+names(indian_food)
+```
+
+```{r}
+glimpse(indian_food)
+```
+```{r}
+naniar::miss_var_summary(indian_food)
+```
+
+```{r}
+summary(indian_food)
+```
+_Split Ingredients Into Their Own Row_
+```{r}
+indian_food<-indian_food%>%
+  mutate_all(tolower)%>%
+  transform(ingredients=str_split(ingredients,","))%>%
+  unnest(ingredients)
+indian_food
+
+```
+
+```{r}
+indian_food%>%
+  group_by(ingredients)%>%
+  summarise(n_recipes=n_distinct(name))
+```
+```{r}
+indian_food%>%
+  group_by(name)%>%
+  summarise(max_prep_time=max(prep_time))%>%
+  arrange(desc(max_prep_time))
+```
+
