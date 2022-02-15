@@ -1,5 +1,5 @@
 ---
-title: "Cites Group Project"
+title: "Indian Food Cookbook"
 author: "Emily Huie"
 date: "2/10/2022"
 output: html_document
@@ -19,10 +19,11 @@ library(naniar)
 
 ```
 
+1. Loading the data file.
 ```{r}
 indian_food<- read_csv(here("group_project", "indian_food.csv"))%>% clean_names()
 ```
-
+2. Structure of the data. 
 
 ```{r}
 indian_food
@@ -31,7 +32,7 @@ indian_food
 summary(indian_food)
 ```
 
-
+_Changing -1 to NA_
 ```{r}
 indian_food<-indian_food%>%
   na_if("-1")
@@ -39,7 +40,7 @@ indian_food<-indian_food%>%
 ```{r}
 summary(indian_food)
 ```
-
+3. Names of the Variables
 ```{r}
 names(indian_food)
 ```
@@ -47,13 +48,12 @@ names(indian_food)
 ```{r}
 glimpse(indian_food)
 ```
+_How much NA?_
 ```{r}
 naniar::miss_var_summary(indian_food)
 ```
 
-```{r}
-summary(indian_food)
-```
+
 _Split Ingredients Into Their Own Row_
 ```{r}
 indian_food<-indian_food%>%
@@ -63,7 +63,7 @@ indian_food<-indian_food%>%
 indian_food
 
 ```
-
+_Ingredients_
 ```{r}
 indian_food%>%
   group_by(ingredients)%>%
@@ -72,7 +72,12 @@ indian_food%>%
 ```{r}
 indian_food%>%
   group_by(name)%>%
-  summarise(max_prep_time=max(prep_time))%>%
-  arrange(desc(max_prep_time))
+  summarise(n_ingredients=n_distinct(ingredients))
+```
+
+```{r}
+indian_food%>%
+  group_by(diet)%>%
+  summarise(n_recipe=n_distinct(name))
 ```
 

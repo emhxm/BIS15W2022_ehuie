@@ -63,7 +63,7 @@ homerange <- read_csv(here("lab11", "data", "Tamburelloetal_HomeRangeDatabase.cs
 ```
 
 ## Line plots
-Line plots are great when you need to show changes over time. Here we look at the number of samples for species DM and DS over the years represented in the data.  
+Line plots are great when you need to show _changes over time_. Here we look at the number of samples for species DM and DS over the years represented in the data.  
 ```{r}
 deserts %>% 
   filter(species_id=="DM" | species_id=="DS") %>% 
@@ -94,7 +94,7 @@ deserts %>%
 ```
 
 ## Histograms
-Histograms are frequently used by biologists; they show the distribution of continuous variables. As students, you almost certainly have seen histograms of grade distributions. Without getting into the statistics, a histogram `bins` the data and you specify the number of bins that encompass a range of observations. For something like grades, this is easy because the number of bins corresponds to the grades A-F. By default, R uses a formula to calculate the number of bins but some adjustment is often required.  
+Histograms are frequently used by biologists; they show the _distribution of continuous variables_. As students, you almost certainly have seen histograms of grade distributions. Without getting into the statistics, a histogram `bins` the data and you specify the number of bins that encompass a range of observations. For something like grades, this is easy because the number of bins corresponds to the grades A-F. By default, R uses a formula to calculate the number of bins but some adjustment is often required.  
 
 What does the distribution of body mass look like in the `homerange` data?
 ```{r}
@@ -110,7 +110,7 @@ grDevices::colors()
 ```
 
 ## Density plots  
-Density plots are similar to histograms but they use a smoothing function to make the distribution more even and clean looking. They do not use bins.
+Density plots are similar to histograms but they use a smoothing function to make the _distribution_ more even and clean looking. They do not use bins.
 ```{r}
 homerange %>% 
   ggplot(aes(x = log10.mass)) +
@@ -207,12 +207,12 @@ table(quartiles)
 2. How many and which taxonomic classes are represented in each of the `range_category` classes?
 ```{r}
   homerange <- homerange %>% 
-             mutate(range_category = case_when(log10.hra <= 3.65 ~ "very_small",
-                                              log10.hra > 3.65 & log10.hra <= 4.59 ~ "small",
-                                              log10.hra> 4.59 & log10.hra <=6.02 ~"medium",
-                                              log10.hra > 6.02 ~ "large"))
+             mutate(range_category = case_when(log10.hra < 3.65 ~ "very_small",
+                                              log10.hra >= 3.65 & log10.hra < 4.59 ~ "small",
+                                              log10.hra>= 4.59 & log10.hra <6.02 ~"medium",
+                                              log10.hra >= 6.02 ~ "large"))
 homerange%>%
-  ggplot(aes(x=range_category, fill=class))+geom_bar(position="dodge",color="black", alpha=0.6)+labs(title="Observations by Range Category in Homerange Data", fill="Class")
+  ggplot(aes(x=range_category, fill=class))+geom_bar(position="dodge",color="black", alpha=0.6)+labs(title="Observations by Range Category in Homerange Data", x="Range Category", fill="Class")
   
 
 ```
