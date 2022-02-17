@@ -2,7 +2,9 @@
 title: "Indian Food Cookbook"
 author: "Emily Huie"
 date: "2/10/2022"
-output: html_document
+output: 
+  html_document: 
+    keep_md: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -79,5 +81,11 @@ indian_food%>%
 indian_food%>%
   group_by(diet)%>%
   summarise(n_recipe=n_distinct(name))
+```
+
+```{r}
+#4. state --> what ingredient is used the most for each state?
+#5. % of ingridient that contains what recipe
+#9. in data, what percent of dishes are main courses, which are snakcks...
 ```
 
