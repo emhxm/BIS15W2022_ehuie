@@ -160,10 +160,13 @@ life_exp_long%>%
 ```
 
 5. (3 points) Make a plot that shows the change over the past 100 years for the country with the biggest improvement in life expectancy. Be sure to add appropriate aesthetics to make the plot clean and clear. Once you have made the plot, do a little internet searching and see if you can discover what historical event may have contributed to this remarkable change.  
+
+Oil was found around 1940's which led to an economic boom. 
 ```{r}
 life_exp_long%>%
   filter(country=="Kuwait", !is.na(life_expectancy), between(year, 1920,2020))%>%
-  ggplot(aes(x=as.factor(year),y=life_expectancy, group=country, color=country))+geom_point()+geom_line()+theme(axis.text.x=element_text(angle=80, size=4, hjust=1))+labs(title="Kuwait: Country with Biggest Improvement in Life Expectancy", x="Year", y="Life Expectancy")
+  ggplot(aes(x=as.factor(year),y=life_expectancy, group=country, color=country))+geom_point()+geom_line()+labs(title="Kuwait: Country with Biggest Improvement in Life Expectancy", x="Year", y="Life Expectancy")+theme_solarized()+ theme(legend.position = "bottom",
+        axis.text.x = element_text(angle = 90, hjust=1))
 ```
 
 
@@ -187,11 +190,11 @@ pop_long%>%
 
 
 7. (4 points) Produce a plot that shows the 5 countries that have had the highest population growth over the past 100 years (1920-2020). Which countries appear to have had exponential growth?  
-
+China and India appear like they have exponential growth. 
 ```{r}
 pop_long%>%
   filter(country %in% c("China", "India", "United States", "Indonesia", "Pakistan", between(year, 1920,2020)))%>%
-  ggplot(aes(x=as.factor(year), y=population, group=country, color=country))+geom_point()+geom_line()+theme(axis.text.x=element_text(angle=80, hjust=1, size=5))+labs(title="Population Growth for Top Five Countries from 1920 and 2020", x="Year", y="Population")
+  ggplot(aes(x=as.factor(year), y=population, group=country, color=country))+geom_point()+geom_line()+theme(axis.text.x=element_text(angle=70, hjust=1, size=2 ))+labs(title="Population Growth for Top Five Countries from 1920 and 2020", x="Year", y="Population")
 ```
 
 
@@ -205,6 +208,9 @@ Luxembourg	89370
 Singapore	88060			
 Brunei	72970			
 Ireland	68930	
+
+_Qatar_
+There is a noticeable drop in Qatar's GDP per Capita. This was due to the lower price of oil imposed by quotas from the Organization of Petroleum Exporting Challenges. 
 ```{r}
 income_long%>%
   filter(year%in%c(1920,2020))%>%
@@ -216,7 +222,7 @@ income_long%>%
 ```{r}
 income_long%>%
   filter(country %in% c("Qatar", "Luxembourg", "Singapore", "Brunei", "Ireland"),between(year,1920,2020))%>%
-  ggplot(aes(x=year, y=gdp_per_capita,  group=country,color=country))+geom_point()+geom_line()+theme(axis.text.x=element_text(angle=60, hjust=1))+labs(title="GDP Per Capita Growth for Top Five Countries from 1920 and 2020", x="Year", y="GDP Per Capita")
+  ggplot(aes(x=year, y=gdp_per_capita,  group=country,color=country))+geom_point()+geom_line()+theme(axis.text.x=element_text(angle=90, hjust=1, size=4))+labs(title="GDP Per Capita Growth for Top Five Countries from 1920 and 2020", x="Year", y="GDP Per Capita")
 ```
 
 
@@ -243,7 +249,7 @@ gapminder_join
 ```
 
 10. (4 points) Use the joined data to perform an analysis of your choice. The analysis should include a comparison between two or more of the variables `life_expectancy`, `population`, or `income.`  
-_How does Life Expectancy compare to GDP_Per_Capita in Top Five Countries with Greatest GDP Growth_
+_How does Life Expectancy compare to GDP_PerCapita in Top Five Countries with Greatest GDP Growth_
 ```{r}
 g1<-gapminder_join%>%
   filter(country %in% c("Qatar", "Luxembourg", "Singapore", "Brunei", "Ireland"),between(year,1920,2020))%>%
@@ -252,3 +258,4 @@ g1<-gapminder_join%>%
 g1+facet_wrap(~country)
 ```
 
+In Singapore, Ireland, and Luxemborg, we see that as GDP per Capita increases, life expectancy increased. However in Qatar and Brunei, as life expectancy increased, there was a drop in GDP per Capita. This data may reveal that there are other variables that affect GDP per Capita and that these values are not always a positive correlation. 
