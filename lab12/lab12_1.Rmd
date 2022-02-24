@@ -6,6 +6,7 @@ output:
     theme: spacelab
     toc: yes
     toc_float: yes
+    keep_md:yes
 ---
 
 ```{r setup, include = FALSE}
@@ -53,14 +54,16 @@ spider_list <- lapply(files, read_csv)
 
 We can view elements in our list with double brackets. Let's view the data for Butte county.
 ```{r}
-spider_list[[3]]
+names(spider_list[[3]])
 class(spider_list[[3]])
 ```
 
 ## Practice
 1. What are the names of our list elements?
 ```{r}
-
+names(spider_list[[1]])
+class(spider_list[[1]])
+str(spider_list[[1]])
 ```
 
 ## Naming List Elements
@@ -101,6 +104,10 @@ Let's assume we have a database of customers and their purchases.
 ```{r}
 table_A <- read_csv(here("lab12", "data", "table_A.csv"))
 table_B <- read_csv(here("lab12", "data", "table_B.csv"))
+```
+```{r}
+names(table_A)
+names(table_B)
 ```
 
 The general syntax for joins is...
@@ -160,6 +167,11 @@ We will use a join here to merge lat/long to our data frame. Both files contain 
 ## Practice
 1. Which type of join is most appropriate in this case?  
 ```{r}
+spiders_with_locs <- semi_join(spiders_all, spiders_locs, by = c("Accession"))
+summary(spiders_with_locs)
+```
+
+```{r}
 spiders_with_locs <- left_join(spiders_all, spiders_locs, by = c("Accession"))
 summary(spiders_with_locs)
 ```
@@ -207,22 +219,23 @@ dateformat5 <- "20200922 170000"
 ## Practice 
 1. Convert each of the examples above using lubridate.
 ```{r}
-
+ymd(dateformat1)
 ```
 
 ```{r}
-
+mdy(dateformat2)
 ```
 
 ```{r}
-
+dmy(dateformat3)
 ```
 
 ```{r}
-
+mdy_hms(dateformat4)
 ```
 
 ```{r}
+ymd_hms(dateformat5)
 
 ```
 
@@ -248,14 +261,24 @@ It will be very helpful if you can install the following packages before the nex
 `devtools` and `ggmap`
 ```{r}
 #install.packages("devtools")
-#library(devtools)
-#devtools::install_github("dkahle/ggmap")
+library(devtools)
+devtools::install_github("dkahle/ggmap")
 ```
 
 `rgeos`, `rgdal`, and `albersusa`
 ```{r, message = FALSE}
 #install.packages("albersusa")
+#install.packages("installr")
+#library(installr)
+#updateR()
 ```
+
+
+```{r}
+#devtools::install_github("hrbrmstr/albersusa")
+library(albersusa)
+```
+
 
 ## That's it! Take a break and I will see you on Zoom!  
 
