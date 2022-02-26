@@ -39,7 +39,7 @@ Copy and pasting code into the console is okay for tiny example apps, but it's n
 1. Open and save your finished homerange app from question 3 in part 1 as a stand alone `.R` script. What libraries are required for the app to run? Set the run method in the Run App drop down to "Run External".  
 ![Run External](runexternal.png){width=300px}  
 ```{r, echo=FALSE}
-homerange <- readr::read_csv("data/Tamburelloetal_HomeRangeDatabase.csv")
+homerange <- readr::read_csv("data/Tamburelloetal_HomeRangeDatabase.csv")%clean_names()
 ```
 
 Here is the app so you can copy/ paste.  
@@ -70,7 +70,7 @@ ui <- fluidPage(
     
     homerange %>% 
     filter(taxon == input$taxon) %>% 
-    ggplot(aes(x=log10.hra)) + 
+    ggplot(aes(x=log10_hra)) + 
     geom_density(color="black", fill="red", alpha=0.6)
   })
   }
@@ -285,6 +285,9 @@ Let's try to build an app that allows users to explore sexual composition of wol
 ```{r}
 wolves <- read_csv("data/wolves_data/wolves_dataset.csv")
 ```
+```{r}
+names(wolves)
+```
 
 2. For the app, here is a faceted version of what we are looking for. We want the reactive part to be `pop` and you should use `shinydashboard`.
 ```{r}
@@ -293,6 +296,75 @@ wolves %>%
   ggplot(aes(x=sex, fill=sex))+
   geom_bar()+
   facet_wrap(~pop)
+```
+
+```{r, eval=F, echo=T}
+ui <- dashboardPage(
+  dashboardHeader(title = "Wolves"),
+  dashboardSidebar(disable = T),
+  dashboardBody(
+  fluidRow(
+  box(title = "Plot Options", width = 3,
+  selectInput("x", "Select X Variable", choices = c("pop", "sex"), 
+              selected = "pop"),
+  selectInput("y", "Select Y Variable", choices = c("pop", "sex"), 
+              selected = "pop"),
+  ), # close the first box
+  box(title = "Plot of Wolves Data", width = 7,
+  plotOutput("plot", width = "600px", height = "500px")
+  ) # close the second box
+  ) # close the row
+  ) # close the dashboard body
+) # close the ui
+
+server <- function(input, output, session) { 
+  output$plot <- renderPlot({
+  ggplot(wolves, aes_string(x = input$x, fill="sex")) +
+      geom_bar(position="dodge") + 
+      theme_light(base_size = 18)
+  })
+  session$onSessionEnded(stopApp)
+  }
+
+shinyApp(ui, server)
+```
+
+```{r}
+ui <- fluidPage(    
+  
+  titlePanel("Log 10 Homerange by Taxon"), # give the page a title
+  
+  # generate a row with a sidebar
+  sidebarLayout(      
+    
+  # define the sidebar with one input
+  sidebarPanel(
+  selectInput("taxon", " Select Taxon of Interest:", choices=unique(homerange$taxon)), hr(),
+  helpText("Reference: Tamburello N, Cote IM, Dulvy NK (2015) Energy and the scaling of animal space use. The American Naturalist 186(2):196-211.")),
+    
+  # create a spot for the barplot
+  mainPanel(
+  plotOutput("taxonPlot"))
+  )
+  )
+
+  # define a server for the Shiny app
+  server <- function(input, output, session) {
+  
+  # this stops the app upon closing
+  session$onSessionEnded(stopApp)
+  
+  # fill in the spot we created for a plot
+  output$taxonPlot <- renderPlot({
+    
+    homerange %>% 
+    filter(taxon == input$taxon) %>% 
+    ggplot(aes(x=log10.hra)) + 
+    geom_density(color="black", fill="red", alpha=0.6)
+  })
+  }
+
+shinyApp(ui, server)
 ```
 
 ## That's it, let's take a break!   
