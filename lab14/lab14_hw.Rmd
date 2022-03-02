@@ -3,8 +3,8 @@ title: "Lab 14 HW"
 output: 
   html_document: 
     keep_md: yes
-author: "your name here"
-date: '2022-02-28'
+author: "Emily Huie"
+date: '2022-03-01'
 ---
 
 
@@ -38,38 +38,75 @@ beachbugs_long <- readr::read_csv("data/beachbugs_long.csv")
 Clean up the column names (no capitals, not spaces) of `superhero_info`, then use 2 functions to remind yourself of structure of the `superhero_info` data set.
 
 ```{r}
+superhero_info <- readr::read_csv("data/heroes_information.csv", na = c("", "-99", "-"))%>%clean_names()
+superhero_powers <- readr::read_csv("data/super_hero_powers.csv", na = c("", "-99", "-"))%>%clean_names()
 
+beachbugs_long <- readr::read_csv("data/beachbugs_long.csv")%>%clean_names()
+```
+```{r}
+str(superhero_info)
+```
+```{r}
+glimpse(superhero_info)
+```
+
+```{r}
+str(superhero_powers)
+```
+
+```{r}
+glimpse(superhero_powers)
+```
+
+```{r}
+glimpse(beachbugs_long)
+```
+
+```{r}
+str(beachbugs_long)
 ```
 
 ### 2.
 Are bad guys bigger? Make box-plots of weight by `alignment` (alignment on the x-axis).
 ```{r}
-
+superhero_info%>%
+  filter(!weight=="NA", !alignment=="NA")%>%
+  ggplot(aes(x=alignment, y=weight, fill=alignment))+geom_boxplot()+coord_flip()
 ```
 
 ### 3. 
 Now, make a violin plot of weight by `alignment` (alignment on the x-axis). Add some color!
   What information can you observe in the violin plot that was not visible in the boxplot?
 ```{r}
-
+superhero_info%>%
+  filter(!weight=="NA", !alignment=="NA")%>%
+  ggplot(aes(x=alignment, y=weight, fill=alignment))+geom_violin(alpha=0.5, na.rm=TRUE)+coord_flip()
 ```
 
 
 
 ### 4. 
 Use `alpha = .5` in `geom_boxplot()` and `geom_violin()` to layer both plots on top of one another. What does this tell you about the distribution of weight in "`bad`" guys?
+
+Weight is a normal distribution. 
 ```{r}
+superhero_info%>%
+  filter(!weight=="NA", !alignment=="NA")%>%
+  ggplot(aes(x=alignment, y=weight, fill=alignment))+geom_boxplot(color="grey", alpha=0.3, na.rm=TRUE)+geom_violin(alpha=0.5, na.rm=TRUE)+coord_flip()
 
 ```
 
 ### 5. 
 Box plots are great for showing how the distribution of a numeric variable (e.g. weight) varies among a categorical variable (e.g. alignment).
   Make your own violin plot with the superhero data. 
-  What is your numeric data? 
-  What is your categorical variable?
+  What is your numeric data? Height
+  What is your categorical variable? Alignment
+
 
 ```{r}
-
+superhero_info%>%
+  filter(!height=="NA", !alignment=="NA")%>%
+  ggplot(aes(x=height, y=alignment, fill=alignment))+geom_boxplot(color="grey", alpha=0.9, na.rm=TRUE)+geom_violin(alpha=0.5, na.rm=TRUE)
 ```
 
 ### 6. 
@@ -77,17 +114,22 @@ Remind yourself what `beachbugs` looks like. Then generate a heatmap of buglevel
 color it with `scale_fill_gradient(low="yellow", high="red")` or colors of your choice. you may find it looks best with one color!
 (dont forget, `coord_flip()` is a quick way to improve the look of your plot if you dont like the default orientation)
 
-```{r}
 
-```
 
 ```{r}
-
+beachbugs_long %>%
+  ggplot(aes(site,year, fill= buglevels)) + 
+  geom_tile() +
+  scale_fill_gradient(low="cyan", high="purple")+coord_flip()
 ```
+
+
 
 ### 7.  
 Use the provided code to normalize the beachbug data set. 
-Then make a heatmap with the `beachbugs_normalized` data, and use the same color chois as above. Which heatmap do you think is more informative? why?
+Then make a heatmap with the `beachbugs_normalized` data, and use the same color choice as above. Which heatmap do you think is more informative? why?
+
+The normalized value will help us standardize the buglevels across each beach. This allows us to see which has the bug level amount at a certain year. 
 
 ```{r}
 #makes a new column of the highest buglevel observed at each site
@@ -107,7 +149,10 @@ beachbugs_normalized
 ```
  
 ```{r}
-
+beachbugs_normalized %>%
+  ggplot(aes(site,year, fill= norm_buglevel)) + 
+  geom_tile() +
+  scale_fill_gradient(low="cyan", high="purple")+coord_flip()
 ```
 
 ### 8.
@@ -122,32 +167,41 @@ Start by making the 4 vectors, then the list of vectors. The vector for alignmen
 ```{r}
 # evil
 
-#evil_vec <- superhero_info %>%
-#  filter(alignment == "bad")%>%
-#  pull(name)
+evil_vec <- superhero_info %>%
+filter(alignment == "bad")%>%
+pull(name)
 
 # red eyes
 
-
+red_eye_vec<-superhero_info%>%
+  filter(eye_color=="red")%>%
+  pull(name)
 # male
 
-
+male_vec<-superhero_info%>%
+  filter(gender=="male")%>%
+  pull(name)
 # bald
+bald_vec<-superhero_info%>%
+  filter(hair_color=="bald")%>%
+  pull(name)
 
 
 ```
 
 Your list of vectors will look something like this:
 ```{r}
-# questions_list <- list(evil_vec, red_eye_vec, male_vec, bald_vec)
+questions_list <- list(evil_vec, red_eye_vec, male_vec, bald_vec)
 
 ```
 
 ### 9. 
 Let's make the venn diagram! use the code from lab as a reference. 
 ```{r}
-# something like:
-# ggVennDiagram( list, category.names = c("name", "name", "name", "name"))
+
+venn_plot<-ggVennDiagram( questions_list, category.names = c("evil", "red", "male", "bald"), edge_size=1.5)
+
+venn_plot+scale_fill_distiller(palette="Greys")+labs(title="How many evil, red, male, bald persons are there", caption="Evil, red, male, bald superheros")
 
 
 
@@ -156,14 +210,55 @@ Let's make the venn diagram! use the code from lab as a reference.
 
 ### 10. Choose one intersection of the venn diagram that is interesting to you. Use dplyr to find the names of the superheros in that intersection. 
 
-```{r}
 
+
+```{r}
+superhero_info%>%
+
+  filter(alignment== "bad")%>%
+  filter(eye_color=="red")%>%
+  select(name)
 ```
 
 
-
 ### 11. Make another venn diagram with the `superhero_info` data. What are your questions? ( At least 2!) 
+Is their alignment good? 
+Are their eyes blue?
+Are they female?
+Are they black?
 ```{r}
+# good
+
+good_vec <- superhero_info %>%
+filter(alignment == "good")%>%
+pull(name)
+
+# blue eyes
+
+blue_eye_vec<-superhero_info%>%
+  filter(eye_color=="blue")%>%
+  pull(name)
+# female
+
+female_vec<-superhero_info%>%
+  filter(gender=="female")%>%
+  pull(name)
+# black
+black_vec<-superhero_info%>%
+  filter(hair_color=="black")%>%
+  pull(name)
+
+
+```
+
+```{r}
+venn_list <- list(good_vec, blue_eye_vec, female_vec, black_vec)
+```
+
+```{r}
+venn_plot<-ggVennDiagram( venn_list, category.names = c("good", "blue", "female", "black"), edge_size=1.5)
+
+venn_plot+scale_fill_distiller(palette="Greys")+labs(title="How many good, blue, female, black hair persons are there", caption="good, blue, female, black superheros")
 
 ```
 
@@ -189,7 +284,15 @@ power_frequency
 
 ```{r}
 
-
+power_frequency %>% 
+ggplot(aes(
+  label = power, 
+  size = freq,
+  color = power
+  )) +
+  geom_text_wordcloud() +
+  scale_size_area(max_size = 15) +
+  theme_minimal()
 
 ```
 ### 13.  
@@ -220,7 +323,15 @@ power_quantity
 
 ```{r}
 
-
+power_quantity %>% 
+ggplot(aes(
+  label = hero_names, 
+  size = sum_powers,
+  color = hero_names
+  )) +
+  geom_text_wordcloud() +
+  scale_size_area(max_size = 15) +
+  theme_minimal()
 ```
 
 ## That's it! 🎉
